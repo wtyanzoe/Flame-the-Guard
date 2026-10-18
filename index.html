@@ -191,7 +191,7 @@
 
 <header>
   <h1>🔥 FIRE BARRIERS</h1>
-  <span id="ver">v9</span>
+  <span id="ver">v10</span>
   <div id="status"></div>
   <button id="showstate" class="state" style="margin-left:auto">🔍 State</button>
   <button id="newgame">New Game</button>
@@ -215,9 +215,9 @@
       <p><b>Combat (simultaneous):</b> both directions resolve from the pre-combat state. ATK &gt; RES → destroyed + (ATK−RES) fire barriers lost. ATK = RES → destroyed, no barriers lost. ATK &lt; RES → absorbed. Each contested position is reviewed with an <b>OK — Resolve</b> button.</p>
       <p><b>Binding peptide:</b> CsgA and BslA require a Binding peptide on <em>that specific</em> main card first. Once a peptide is on a card, any number of CsgA/BslA may be attached using that glue. A different card needs its own peptide.</p>
       <p><b>Arsonist:</b> each Arsonist on your board lets you remove 1 opponent protection card per round. Inactive in round 1. <b>🔥 Burn</b> buttons appear in the action bar for each burnable protection card. <b>If you burn a Binding peptide, and that was the last peptide on the card, all CsgA and BslA attached to that card are also discarded (still costs only 1 removal).</b> Burning a CsgA or BslA on its own does not remove the peptide.</p>
-      <p><b>Swap:</b> select board card(s) in one column, then hand card(s); incoming total currency must be ≥ outgoing total, and the column may not exceed 2 main cards. <b>Cards swapped off the board are discarded — along with any protection cards attached to them.</b></p>
+      <p><b>Swap:</b> select board card(s) in one column, then hand card(s); incoming total currency must be <b>≤</b> outgoing total, and the column may not exceed 2 main cards. <b>Cards swapped off the board are discarded — along with any protection cards attached to them.</b></p>
       <p><b>Game end — fire barriers depleted:</b> a player who loses all 10 fire barriers loses immediately; the other player wins.</p>
-      <p><b>Game end — deck exhaustion (NEW):</b> if the <b>main deck</b> cannot supply enough cards for both players to draw to 5 at the start of a round, or if the <b>protection deck</b> cannot supply enough cards for both players' combined protection draws in a round, the game ends immediately at that point (the round does not complete). <b>The player with more fire barriers remaining wins. If barriers are tied, the game is a draw.</b></p>
+      <p><b>Game end — deck exhaustion:</b> if the <b>main deck</b> cannot supply enough cards for both players to draw to 5 at the start of a round, or if the <b>protection deck</b> cannot supply enough cards for both players' combined protection draws in a round, the game ends immediately at that point (the round does not complete). <b>The player with more fire barriers remaining wins. If barriers are tied, the game is a draw.</b></p>
       <p style="color:#ffd166"><b>Example:</b> in Round 10, Player 1 has 2 Construction workers (2 protection draws) and Player 2 has 1 Scientist (2 draws). Total needed for the round = 4. If the protection deck has fewer than 4 cards, the game ends in Round 10 before either player draws. The player with more fire barriers remaining wins; tie → draw.</p>
       <p><b>🔍 State:</b> click the header button at any time to dump full game state to the log.</p>
     </details>
@@ -406,7 +406,7 @@ function newGame(){
   S.resolveQueue = [];
   S.resolveIdx = 0;
   S.log = [];
-  log('New game started. (v9)', 'hl');
+  log('New game started. (v10)', 'hl');
   log(`Decks built: main=${S.deck.length}, protection=${S.protDeck.length}.`);
   render();
   startRound();
@@ -444,9 +444,6 @@ function doDraw(){
   const need2 = Math.max(0, 5 - b2);
   const totalNeeded = need1 + need2;
 
-  // NEW: main-deck exhaustion check.
-  // If the deck cannot supply enough cards for both players to reach 5,
-  // the game ends here. Winner = more fire barriers (tie = draw).
   if (totalNeeded > 0 && S.deck.length < totalNeeded){
     log(`⚠ Insufficient main cards for this round's draws.`, 'bad');
     log(`  P1 needs ${need1} (currently ${b1}), P2 needs ${need2} (currently ${b2}) ` +
@@ -581,8 +578,6 @@ function startProtTurn(p){
   S.actor = p;
   S.sel = {};
 
-  // NEW: protection-deck exhaustion check — runs ONCE per round,
-  // for the combined draws of BOTH players.
   if (!S.protDeckCheckedThisRound){
     S.protDeckCheckedThisRound = true;
     const need1 = protectionDrawCount(1).total;
@@ -809,10 +804,6 @@ function gameOver(){
   };
 }
 
-/* ---------------------------------------------------------
-   NEW: deck-exhaustion game over.
-   Winner = more fire barriers. Tie = draw.
-   --------------------------------------------------------- */
 function deckExhaustionGameOver(deckType){
   S.phase = 'over';
   S.actor = 0;
@@ -972,8 +963,8 @@ function doSwap(){
   const outCur = boardCards.reduce((a,c) => a + c.cur, 0);
   const inCur  = handCards.reduce((a,c) => a + c.cur, 0);
 
-  if (inCur < outCur){
-    toast(`Incoming currency (${inCur}) must be ≥ outgoing (${outCur})`);
+  if (inCur > outCur){
+    toast(`Incoming currency (${inCur}) must be ≤ outgoing (${outCur})`);
     return;
   }
   const remaining = S.boards[p][col].length - boardCards.length;
@@ -1433,7 +1424,7 @@ function renderActions(){
     const summary = document.createElement('div');
     summary.innerHTML = `<b>Player ${S.actor} — Swapping phase.</b> ` +
       `Select board card(s) in one column, then hand card(s). ` +
-      `<span style="color:${inCur >= outCur ? '#5fe0b5' : '#ff8b7d'}">` +
+      `<span style="color:${inCur <= outCur ? '#5fe0b5' : '#ff8b7d'}">` +
       `Outgoing 💰${outCur} → Incoming 💰${inCur}</span>`;
     msg.appendChild(summary);
 
