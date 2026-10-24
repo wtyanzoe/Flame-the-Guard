@@ -190,8 +190,8 @@
 <body>
 
 <header>
-  <h1>🔥 FLAME THE GUARD THE FLAME</h1>
-  <span id="ver">v10</span>
+  <h1>🔥 Flame the Guard/Guard the Flame</h1>
+  <span id="ver">v2</span>
   <div id="status"></div>
   <button id="showstate" class="state" style="margin-left:auto">🔍 State</button>
   <button id="newgame">New Game</button>
@@ -406,7 +406,7 @@ function newGame(){
   S.resolveQueue = [];
   S.resolveIdx = 0;
   S.log = [];
-  log('New game started. (v10)', 'hl');
+  log('New game started. (v2)', 'hl');
   log(`Decks built: main=${S.deck.length}, protection=${S.protDeck.length}.`);
   render();
   startRound();
@@ -988,6 +988,8 @@ function doSwap(){
   render();
 }
 
+/* NOTE: doDiscardDraw is retained but no longer reachable from the UI.
+   The "Discard 1 & draw 1" button has been removed from the swap phase. */
 function doDiscardDraw(){
   const p = S.actor;
   const inc = S.sel.in || [];
@@ -1438,7 +1440,6 @@ function renderActions(){
 
     el.appendChild(msg);
     el.appendChild(mkBtn('Swap', doSwap));
-    el.appendChild(mkBtn('Discard 1 & draw 1', doDiscardDraw));
     el.appendChild(mkBtn('Done', nextFromSwap, 'primary'));
 
   } else if (S.phase === 'resolve'){
