@@ -15,29 +15,33 @@
   body{
     margin:0; background:radial-gradient(circle at 50% 0%,#1f1a17,#141110 60%);
     color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-    font-size:16px;
+    font-size:18px;
   }
-  h1{font-size:20px;margin:0;letter-spacing:.5px}
-  #ver{font-size:11px;color:#7a6c64;letter-spacing:.5px}
+  h1{font-size:24px;margin:0;letter-spacing:.5px}
+  #ver{font-size:12px;color:#7a6c64;letter-spacing:.5px}
   header{
     display:flex;align-items:center;gap:14px;padding:12px 22px;
     background:linear-gradient(180deg,#241d1a,#1a1513);
     border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;
     flex-wrap:wrap;
   }
-  #status{display:flex;gap:16px;font-size:14px;color:var(--dim);flex-wrap:wrap}
+  #status{display:flex;gap:16px;font-size:16px;color:var(--dim);flex-wrap:wrap}
   #status b{color:var(--text)}
   .layout{
-    display:grid;grid-template-columns:minmax(0,1fr) 400px;
+    display:grid;grid-template-columns:minmax(0,1fr) 420px;
     gap:18px;padding:18px;align-items:start;max-width:1600px;margin:0 auto;
   }
   @media(max-width:1000px){ .layout{grid-template-columns:1fr} }
 
+  /* Board: grid with columns stretched to same height (default stretch).
+     Each column: flex column, two lanes with natural heights.
+     equalizeLanes() (JS) sets min-height on all lanes to the tallest rendered
+     lane so every lane in every column is the same height -> midlines align. */
   .board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
   .column{
     background:linear-gradient(180deg,#1c1715,#191413);
     border:1px solid var(--line);border-radius:12px;padding:8px;
-    display:flex;flex-direction:column;gap:6px;min-height:280px;
+    display:flex;flex-direction:column;gap:6px;
     transition:border-color .2s, box-shadow .2s;
   }
   .column.contested{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset,0 0 14px -4px var(--accent)}
@@ -50,28 +54,42 @@
     0%,100%{box-shadow:0 0 0 2px var(--gold) inset,0 0 24px -4px var(--gold)}
     50%{box-shadow:0 0 0 2px var(--gold) inset,0 0 36px 2px var(--gold)}
   }
-  .poslabel{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#7a6c64;text-align:center;padding-bottom:2px}
+  .poslabel{font-size:14px;letter-spacing:1px;text-transform:uppercase;color:#9a8a80;text-align:center;padding-bottom:2px}
   .lane{
-    display:flex;flex-direction:column;gap:6px;min-height:100px;
-    border-radius:8px;padding:6px;border:1px dashed transparent;
+    display:flex;flex-direction:column;gap:6px;
+    min-height:100px;      /* baseline; JS overrides to the tallest lane */
+    border-radius:8px;padding:6px;border:1px solid transparent;
   }
-  .lane.p2{background:rgba(192,57,43,.07)}
-  .lane.p1{background:rgba(47,158,122,.07)}
-  .lane.clickable{cursor:pointer;border-color:var(--gold);background:rgba(255,209,102,.09)}
-  .lane.clickable:hover{background:rgba(255,209,102,.16)}
-  .midline{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.5}
+  .lane.p2{
+    justify-content:flex-end;
+    background:rgba(192,57,43,.22);
+    border:1px solid rgba(192,57,43,.55);
+  }
+  .lane.p1{
+    justify-content:flex-start;
+    background:rgba(47,158,122,.22);
+    border:1px solid rgba(47,158,122,.55);
+  }
+  .lane.clickable{cursor:pointer;border-color:var(--gold);background:rgba(255,209,102,.18)}
+  .lane.clickable:hover{background:rgba(255,209,102,.28)}
+  .midline{height:1px;flex:0 0 1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.5}
 
   .card{
     background:linear-gradient(180deg,#2b2320,#241e1b);
     border:1px solid #4a3c35;border-radius:8px;padding:6px 8px;
-    font-size:13px;line-height:1.3;position:relative;
+    font-size:15px;line-height:1.3;position:relative;
+    overflow:hidden;
   }
-  .card .cname{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .card .stats{display:flex;gap:9px;font-size:12px;color:#c3b2a8;margin-top:3px;flex-wrap:wrap}
-  .card.fire{border-left:3px solid var(--accent)}
+  .card .cname{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card .stats{display:flex;gap:9px;font-size:13px;color:#c3b2a8;margin-top:3px;flex-wrap:wrap}
+  /* Fire cards: no left border, yellow name. */
+  .card.fire .cname{color:#ffd166}
+  .card.on-board-p1{border-top:3px solid var(--p1);background:linear-gradient(180deg,#273a2f,#1c2a22)}
+  .card.on-board-p2{border-top:3px solid var(--p2);background:linear-gradient(180deg,#3c2828,#2a1d1d)}
   .card.facedown{
     background:repeating-linear-gradient(45deg,#2a221e,#2a221e 6px,#221c19 6px,#221c19 12px);
-    border-color:#5a4a40;text-align:center;color:#7d6d64;font-size:22px;padding:18px 6px;font-weight:700;
+    border-color:#5a4a40;text-align:center;color:#7d6d64;
+    font-size:22px;padding:14px 6px;font-weight:700;
   }
   .card.selectable{cursor:pointer}
   .card.selectable:hover{border-color:var(--accent)}
@@ -80,18 +98,42 @@
   .card.targetable:hover{border-color:#5fe0b5}
   .card.swap-warn{border-color:#e88a3a;box-shadow:0 0 0 2px rgba(232,138,58,.4)}
 
-  .prot-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+  .prot-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;max-width:100%}
+
+  /* Base chip (only used on board cards via .prot-chips) */
   .chip{
-    font-size:11px;background:#22322c;border:1px solid #3f6b57;border-radius:4px;
-    padding:2px 6px;color:#9fe0c4;white-space:nowrap;
+    font-size:13px;background:#2a2420;border:1px solid #5a4a40;border-radius:4px;
+    padding:2px 6px;color:#e0d0c0;
+    white-space:normal;overflow-wrap:anywhere;max-width:100%;
   }
-  .chip.peptide{background:#1e2a33;border-color:#3f5b6b;color:#9fc7e0}
-  .chip.removable{
-    cursor:pointer;border-color:var(--p2);color:#ffb8ad;background:#4a1f1a;
-    font-weight:600;padding:4px 9px;box-shadow:0 0 8px -2px var(--p2);
+  /* Player-coloured chip background — chip takes on the host card's player colour */
+  .card.on-board-p1 .chip{
+    background:rgba(47,158,122,.42);
+    border-color:rgba(95,224,181,.8);
+    color:#d8ffe8;
   }
-  .chip.removable:hover{background:#6a2a22;color:#ffd8d2}
-  .chip.cascade-warn{background:#6a2a22;border-color:#e0653a;color:#ffd0b8}
+  .card.on-board-p2 .chip{
+    background:rgba(192,57,43,.42);
+    border-color:rgba(255,139,125,.8);
+    color:#ffd8d0;
+  }
+  .chip.peptide{border-style:dashed}
+  /* Arsonist target: clickable + glow (background stays player-coloured) */
+  .card .chip.removable{
+    cursor:pointer;font-weight:700;padding:4px 9px;
+    box-shadow:0 0 8px -2px rgba(255,180,100,.9);
+  }
+  .card .chip.removable:hover{filter:brightness(1.25)}
+  /* Staged burn (toggled by click, applied on Done) */
+  .card .chip.removable.staged{
+    background:#8a4a1a;border-color:#ffd166;color:#ffe8c8;
+    box-shadow:0 0 12px -2px #ffd166;
+  }
+  /* Cascade warning (last peptide) */
+  .card .chip.cascade-warn{
+    border-color:#ff6b35;
+    box-shadow:0 0 10px -1px #ff6b35;
+  }
 
   .ppanel{
     background:var(--panel);border:1px solid var(--line);border-radius:12px;
@@ -101,67 +143,79 @@
   .ppanel.p2{border-top:3px solid var(--p2)}
   .ppanel.active{box-shadow:0 0 0 1px var(--gold) inset}
   .phead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap}
-  .pname{font-weight:700;letter-spacing:.4px;font-size:16px}
+  .pname{font-weight:700;letter-spacing:.4px;font-size:18px}
   .pname.p1{color:#5fe0b5}
   .pname.p2{color:#ff8b7d}
   .barriers{display:flex;gap:3px;flex-wrap:wrap;max-width:210px}
   .bicon{width:15px;height:19px;border-radius:3px 3px 2px 2px;background:linear-gradient(180deg,#ffb347,#e8641f);box-shadow:0 0 6px -2px #ff6b35}
   .bicon.lost{background:#2e2622;box-shadow:none;border:1px solid #3d332e}
-  .sub{font-size:13px;color:var(--dim);margin:8px 0 6px;letter-spacing:.5px;text-transform:uppercase}
+  .sub{font-size:15px;color:var(--dim);margin:8px 0 6px;letter-spacing:.5px;text-transform:uppercase}
   .hand{display:flex;flex-wrap:wrap;gap:6px;min-height:60px}
-  .hand .card{width:130px}
+  .hand .card{width:150px}
   .prot-hand{display:flex;flex-wrap:wrap;gap:6px;min-height:32px}
-  .prot-hand .card{width:auto;font-size:12px}
-  .empty{color:#5f524b;font-size:13px;font-style:italic}
+  .prot-hand .card{width:auto;font-size:14px}
+  .empty{color:#5f524b;font-size:15px;font-style:italic}
 
   #actions{
-    margin-top:16px;background:var(--panel);border:1px solid var(--line);
-    border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    margin-top:16px;
+    background:#d4b483;
+    border:2px solid #8a6a3a;
+    border-radius:12px;padding:14px 16px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    box-shadow:0 4px 18px -6px #000;
   }
-  #actions .msg{flex:1;min-width:240px;font-size:15px;color:#cdbfb7;line-height:1.5}
+  #actions .msg{flex:1;min-width:240px;font-size:17px;color:#1a1410;line-height:1.5;font-weight:500}
+  #actions .msg b{color:#000}
+  #actions .msg button.burn .burn-name{color:#ffe8c8;font-weight:700}
+
   button{
     background:linear-gradient(180deg,#3a2e28,#2b221e);color:var(--text);
-    border:1px solid #57463d;border-radius:8px;padding:11px 18px;font-size:15px;
+    border:1px solid #57463d;border-radius:8px;padding:11px 18px;font-size:16px;
     cursor:pointer;font-family:inherit;transition:.15s;
   }
   button:hover:not(:disabled){border-color:var(--accent);color:#ffd9c4}
   button:disabled{opacity:.35;cursor:not-allowed}
-  button.primary{background:linear-gradient(180deg,#e8641f,#c14e13);border-color:#ff8b45;font-weight:600}
+  button.primary{background:linear-gradient(180deg,#e8641f,#c14e13);border-color:#ff8b45;font-weight:600;box-shadow:0 2px 8px -2px rgba(0,0,0,.5)}
   button.primary:hover:not(:disabled){background:linear-gradient(180deg,#ff7a35,#d95c1a)}
   button.burn{
     background:linear-gradient(180deg,#6a2a22,#4a1a14);border-color:#a03a2a;
-    text-align:left;font-size:14px;padding:10px 14px;width:100%;
+    text-align:left;font-size:15px;padding:10px 14px;width:100%;
   }
   button.burn:hover:not(:disabled){background:linear-gradient(180deg,#8a3a2e,#6a2418);border-color:var(--accent);color:#ffd8d2}
-  button.state{background:linear-gradient(180deg,#2a2419,#1f1a10);border-color:#5a4a35;font-size:13px;padding:8px 14px}
+  button.burn.staged{
+    background:linear-gradient(180deg,#8a4a1a,#6a3a10);
+    border-color:#ffd166;
+    box-shadow:0 0 0 2px rgba(255,209,102,.5);
+  }
+  button.state{background:linear-gradient(180deg,#2a2419,#1f1a10);border-color:#5a4a35;font-size:14px;padding:8px 14px}
 
   .swap-warning{
     background:linear-gradient(180deg,#4a2a1a,#3a1f14);border:1px solid #a05a2a;
-    color:#ffce9e;padding:8px 12px;border-radius:8px;font-size:14px;width:100%;
+    color:#ffce9e;padding:8px 12px;border-radius:8px;font-size:15px;width:100%;
   }
-  .cascade-note{color:#ffb8ad;font-size:13px}
+  .cascade-note{color:#ffb8ad;font-size:14px}
 
   .faceoff-info{ animation: slideIn .3s ease; }
   @keyframes slideIn{
     from{opacity:0;transform:translateY(-6px)}
     to{opacity:1;transform:translateY(0)}
   }
-  .faceoff-title{font-size:13px;color:#7d6f67;text-transform:uppercase;letter-spacing:1.5px}
-  .faceoff-row{font-size:15px;margin-top:8px;line-height:1.7}
-  .faceoff-row .side1{color:#5fe0b5}
-  .faceoff-row .side2{color:#ff8b7d}
-  .faceoff-outcomes{font-size:13px;margin-top:10px;line-height:1.6;color:#a99a91}
+  .faceoff-title{font-size:14px;color:#3a2f22;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+  .faceoff-row{font-size:16px;margin-top:8px;line-height:1.7;color:#1a1410}
+  .faceoff-row .side1{color:#1e7a54;font-weight:600}
+  .faceoff-row .side2{color:#a02820;font-weight:600}
+  .faceoff-outcomes{font-size:14px;margin-top:10px;line-height:1.6;color:#2a1e14}
   .faceoff-outcomes div{padding:2px 0}
 
   .log{
     background:#100d0c;border:1px solid var(--line);border-radius:12px;
-    padding:12px 14px;height:260px;overflow-y:auto;font-size:14px;line-height:1.6;
+    padding:12px 14px;height:260px;overflow-y:auto;font-size:16px;line-height:1.6;
   }
   .log div{color:#a99a91;border-bottom:1px solid #1c1715;padding:2px 0}
   .log div.hl{color:var(--gold)}
   .log div.bad{color:#ff8b7d}
   .log div.good{color:#5fe0b5}
-  .log div.dim{color:#6f6259;font-size:12px}
+  .log div.dim{color:#6f6259;font-size:14px}
 
   .modal{
     position:fixed;inset:0;background:rgba(8,6,5,.88);display:flex;
@@ -173,17 +227,22 @@
     border-radius:16px;padding:30px 38px;text-align:center;max-width:560px;
     box-shadow:0 30px 80px -20px #000;
   }
-  .modalbox h2{margin:0 0 14px;font-size:26px;color:var(--accent)}
-  .modalbox p{color:#cdbfb7;line-height:1.6;margin:10px 0;font-size:16px}
+  .modalbox h2{margin:0 0 14px;font-size:30px;color:var(--accent)}
+  .modalbox p{color:#cdbfb7;line-height:1.6;margin:10px 0;font-size:18px}
+
   .toast{
-    position:fixed;left:50%;bottom:28px;transform:translateX(-50%);
-    background:#3a1f18;border:1px solid var(--accent);color:#ffcdb4;
-    padding:12px 22px;border-radius:10px;z-index:200;font-size:15px;
+    position:fixed;left:50%;bottom:32px;transform:translateX(-50%);
+    background:#ffd166;color:#1a1410;
+    border:2px solid #ff6b35;border-radius:12px;
+    padding:16px 26px;z-index:200;
+    font-size:18px;font-weight:700;letter-spacing:.2px;
+    box-shadow:0 10px 30px -6px rgba(0,0,0,.7);
+    max-width:80vw;text-align:center;
     animation:fade .3s ease;
   }
   @keyframes fade{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
-  details.rules{margin-top:14px;font-size:14px;color:var(--dim)}
-  details.rules summary{cursor:pointer;color:#c8a68f;padding:6px 0;font-size:15px}
+  details.rules{margin-top:14px;font-size:16px;color:var(--dim)}
+  details.rules summary{cursor:pointer;color:#c8a68f;padding:6px 0;font-size:17px}
   details.rules p{margin:8px 0;line-height:1.6}
 </style>
 </head>
@@ -191,7 +250,7 @@
 
 <header>
   <h1>🔥 Flame the Guard/Guard the Flame</h1>
-  <span id="ver">v2</span>
+  <span id="ver">v3</span>
   <div id="status"></div>
   <button id="showstate" class="state" style="margin-left:auto">🔍 State</button>
   <button id="newgame">New Game</button>
@@ -214,7 +273,8 @@
       <p><b>Face-off:</b> triggered when both players have at least one card in the same position. Stacked cards pool ATK and RES; protection cards add to RES.</p>
       <p><b>Combat (simultaneous):</b> both directions resolve from the pre-combat state. ATK &gt; RES → destroyed + (ATK−RES) fire barriers lost. ATK = RES → destroyed, no barriers lost. ATK &lt; RES → absorbed. Each contested position is reviewed with an <b>OK — Resolve</b> button.</p>
       <p><b>Binding peptide:</b> CsgA and BslA require a Binding peptide on <em>that specific</em> main card first. Once a peptide is on a card, any number of CsgA/BslA may be attached using that glue. A different card needs its own peptide.</p>
-      <p><b>Arsonist:</b> each Arsonist on your board lets you remove 1 opponent protection card per round. Inactive in round 1. <b>🔥 Burn</b> buttons appear in the action bar for each burnable protection card. <b>If you burn a Binding peptide, and that was the last peptide on the card, all CsgA and BslA attached to that card are also discarded (still costs only 1 removal).</b> Burning a CsgA or BslA on its own does not remove the peptide.</p>
+      <p><b>Arsonist:</b> each Arsonist on your board lets you remove 1 opponent protection card per round. Inactive in round 1. <b>🔥 Burn</b> buttons appear in the action bar for each burnable protection card. Selections are staged — click Done to apply all of them at once. If you burn a Binding peptide, and that was the last peptide on the card, all CsgA and BslA attached to that card are also discarded (still costs only 1 removal). Burning a CsgA or BslA on its own does not remove the peptide.</p>
+      <p><b>Protection placement:</b> select a protection card from your hand, then click a target non-Fire card — it attaches immediately. Click Done when finished.</p>
       <p><b>Swap:</b> select board card(s) in one column, then hand card(s); incoming total currency must be <b>≤</b> outgoing total, and the column may not exceed 2 main cards. <b>Cards swapped off the board are discarded — along with any protection cards attached to them.</b></p>
       <p><b>Game end — fire barriers depleted:</b> a player who loses all 10 fire barriers loses immediately; the other player wins.</p>
       <p><b>Game end — deck exhaustion:</b> if the <b>main deck</b> cannot supply enough cards for both players to draw to 5 at the start of a round, or if the <b>protection deck</b> cannot supply enough cards for both players' combined protection draws in a round, the game ends immediately at that point (the round does not complete). <b>The player with more fire barriers remaining wins. If barriers are tied, the game is a draw.</b></p>
@@ -274,6 +334,7 @@ const S = {
   placements: {1:null, 2:null},
   sel: {},
   arsonLeft: {1:0, 2:0},
+  arsonSel: [],
   protDrawnThisRound: {1:false, 2:false},
   arsonTurnTakenThisRound: {1:false, 2:false},
   protDeckCheckedThisRound: false,
@@ -319,7 +380,7 @@ function toast(msg){
   t.className = 'toast';
   t.textContent = msg;
   document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2000);
+  setTimeout(() => t.remove(), 4000);
 }
 
 /* ---------------------------------------------------------
@@ -331,7 +392,7 @@ function discardStack(player, col, stack, reason){
   const allProts = [];
   stack.forEach(c => {
     (c.protections || []).forEach(pr => {
-      allProts.push(`${pr.name}(+${pr.prot}) ← ${c.name}`);
+      allProts.push(`${pr.name}(+${pr.prot}🛡) ← ${c.name}`);
     });
   });
   log(`Player ${player} loses at position ${col+1} [${names.join(' + ')}] — ${reason}.`, 'bad');
@@ -352,6 +413,37 @@ function cascadeForPeptide(card, peptideId){
   return prots.filter(p => p.needsPeptide).length;
 }
 
+/* ---------------------------------------------------------
+   Burn apply — only called from Done.
+   --------------------------------------------------------- */
+function applyBurn(targetPlayer, col, cardId, protId){
+  const card = S.boards[targetPlayer][col].find(c => c.id === cardId);
+  if (!card) return false;
+  const idx = card.protections.findIndex(x => x.id === protId);
+  if (idx < 0) return false;
+
+  const removed = card.protections[idx];
+  const cascade = cascadeForPeptide(card, protId);
+
+  if (cascade > 0){
+    card.protections.splice(idx, 1);
+    const glued = card.protections.filter(x => x.needsPeptide);
+    card.protections = card.protections.filter(x => !x.needsPeptide);
+    log(`Player ${S.actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}.`, 'bad');
+    log(`  ↳ ${removed.name} was the last peptide — ${glued.length} glued card(s) also discarded: ${glued.map(g => g.name).join(', ')}.`, 'bad');
+  } else {
+    card.protections.splice(idx, 1);
+    if (removed.isPeptide){
+      const peptidesLeft = card.protections.filter(p => p.isPeptide).length;
+      log(`Player ${S.actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}. ` +
+          `(${peptidesLeft} peptide(s) still on the card — glued cards survive.)`, 'bad');
+    } else {
+      log(`Player ${S.actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}.`, 'bad');
+    }
+  }
+  return true;
+}
+
 /* =========================================================
    STATE DUMP (debug)
    ========================================================= */
@@ -359,6 +451,7 @@ function stateDump(){
   log('═══ STATE DUMP ═══', 'hl');
   log(`Round ${S.round}, Phase "${S.phase}", Actor P${S.actor}, First P${S.first}`);
   log(`Main deck: ${S.deck.length} · Protection deck: ${S.protDeck.length}`);
+  log(`Staged arson: ${S.arsonSel.length}`, 'dim');
 
   [1, 2].forEach(p => {
     const flat = S.boards[p].flat();
@@ -400,13 +493,14 @@ function newGame(){
   S.placements = {1:null, 2:null};
   S.sel = {};
   S.arsonLeft = {1:0, 2:0};
+  S.arsonSel = [];
   S.protDrawnThisRound = {1:false, 2:false};
   S.arsonTurnTakenThisRound = {1:false, 2:false};
   S.protDeckCheckedThisRound = false;
   S.resolveQueue = [];
   S.resolveIdx = 0;
   S.log = [];
-  log('New game started. (v2)', 'hl');
+  log('New game started. (v3)', 'hl');
   log(`Decks built: main=${S.deck.length}, protection=${S.protDeck.length}.`);
   render();
   startRound();
@@ -425,6 +519,7 @@ function startRound(){
   S.placeTurn = null;
   S.phase = 'draw';
   S.actor = 0;
+  S.arsonSel = [];
   S.protDrawnThisRound = {1:false, 2:false};
   S.arsonTurnTakenThisRound = {1:false, 2:false};
   S.protDeckCheckedThisRound = false;
@@ -504,7 +599,10 @@ function revealHand(){
 function clickColumn(p, col){
   if (S.phase !== 'place' || p !== S.placeTurn || S.cover) return;
   if (S.sel.cardId == null) { toast('Select a card from your hand first'); return; }
-  if (S.boards[p][col].length >= 2){ toast('That position already holds 2 stacked cards'); return; }
+  if (S.boards[p][col].length >= 2){
+    toast('That position is full — you can only stack 2 main cards per position');
+    return;
+  }
 
   const card = S.hands[p].find(c => c.id === S.sel.cardId);
   if (!card) return;
@@ -636,6 +734,7 @@ function logBoardComposition(p){
 
 function nextFromProt(){
   if (S.phase !== 'prot') return;
+  /* Protection attachments are immediate (reverted to v2). No staging to commit. */
   if (S.actor === S.first) startProtTurn(opp(S.first));
   else startArsonTurn(S.first);
 }
@@ -645,6 +744,7 @@ function startArsonTurn(p){
   S.phase = 'arson';
   S.actor = p;
   S.sel = {};
+  S.arsonSel = [];
 
   if (S.arsonTurnTakenThisRound[p]){
     log(`Player ${p}: arson turn already taken this round — skipping.`, 'hl');
@@ -671,8 +771,46 @@ function startArsonTurn(p){
   render();
 }
 
+function toggleArsonSel(targetPlayer, col, cardId, protId){
+  if (S.phase !== 'arson') return;
+  if (S.actor === targetPlayer) return;
+
+  const existing = S.arsonSel.findIndex(x =>
+    x.targetPlayer === targetPlayer && x.cardId === cardId && x.protId === protId);
+
+  if (existing >= 0){
+    S.arsonSel.splice(existing, 1);
+    render();
+    return;
+  }
+
+  const remaining = (S.arsonLeft[S.actor] || 0) - S.arsonSel.length;
+  if (remaining <= 0){
+    toast(`No more removals available this turn (max ${S.arsonLeft[S.actor]})`);
+    return;
+  }
+
+  S.arsonSel.push({ targetPlayer, col, cardId, protId });
+  render();
+}
+
 function nextFromArson(){
   if (S.phase !== 'arson') return;
+
+  const staged = S.arsonSel.slice();
+  S.arsonSel = [];
+
+  for (const item of staged){
+    if ((S.arsonLeft[S.actor] || 0) <= 0) break;
+    const card = S.boards[item.targetPlayer][item.col].find(c => c.id === item.cardId);
+    if (!card) continue;
+    if (!card.protections.find(x => x.id === item.protId)) continue;
+    if (applyBurn(item.targetPlayer, item.col, item.cardId, item.protId)){
+      S.arsonLeft[S.actor] = (S.arsonLeft[S.actor] || 0) - 1;
+    }
+  }
+  render();
+
   if (S.actor === S.first) startArsonTurn(opp(S.first));
   else startSwapTurn(S.first);
 }
@@ -880,6 +1018,7 @@ function clickProtHandCard(p, id){
   render();
 }
 
+/* Reverted to v2: attaching a protection card is immediate (no staging, no unstage). */
 function attachProt(p, col, cardId){
   if (S.phase !== 'prot' || S.actor !== p) return;
   if (S.sel.protId == null) return;
@@ -904,40 +1043,7 @@ function attachProt(p, col, cardId){
 }
 
 function clickProtChip(targetPlayer, col, cardId, protId){
-  if (S.phase !== 'arson') return;
-  if (S.actor === targetPlayer) return;
-  if ((S.arsonLeft[S.actor] || 0) <= 0){ toast('No arsonist removals left'); return; }
-
-  const card = S.boards[targetPlayer][col].find(c => c.id === cardId);
-  if (!card) return;
-  const idx = card.protections.findIndex(x => x.id === protId);
-  if (idx < 0) return;
-
-  const removed = card.protections[idx];
-
-  const cascade = cascadeForPeptide(card, protId);
-  const cascadedNames = [];
-
-  if (cascade > 0){
-    card.protections.splice(idx, 1);
-    const glued = card.protections.filter(x => x.needsPeptide);
-    card.protections = card.protections.filter(x => !x.needsPeptide);
-    glued.forEach(g => cascadedNames.push(g.name));
-    log(`Player ${S.actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}.`, 'bad');
-    log(`  ↳ ${removed.name} was the last peptide — ${glued.length} glued card(s) also discarded: ${cascadedNames.join(', ')}.`, 'bad');
-  } else {
-    card.protections.splice(idx, 1);
-    if (removed.isPeptide){
-      const peptidesLeft = card.protections.filter(p => p.isPeptide).length;
-      log(`Player ${S.actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}. ` +
-          `(${peptidesLeft} peptide(s) still on the card — glued cards survive.)`, 'bad');
-    } else {
-      log(`Player ${S.actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}.`, 'bad');
-    }
-  }
-
-  S.arsonLeft[S.actor] = (S.arsonLeft[S.actor] || 0) - 1;
-  render();
+  toggleArsonSel(targetPlayer, col, cardId, protId);
 }
 
 function clickBoardCard(p, col, cardId){
@@ -988,8 +1094,6 @@ function doSwap(){
   render();
 }
 
-/* NOTE: doDiscardDraw is retained but no longer reachable from the UI.
-   The "Discard 1 & draw 1" button has been removed from the swap phase. */
 function doDiscardDraw(){
   const p = S.actor;
   const inc = S.sel.in || [];
@@ -1068,6 +1172,35 @@ function renderBoard(){
     col.appendChild(makeLane(1, c, swapSelIds));
     el.appendChild(col);
   }
+
+  // Guarantee all lanes are the same height -> midlines align, cards never hidden.
+  equalizeLanes();
+}
+
+/* Measure each lane's natural content height and apply the global max as min-height
+   to every lane. Result: all 10 lanes share the same rendered height, so every
+   column's midline sits at the same vertical position regardless of content. */
+function equalizeLanes(){
+  const board = document.getElementById('board');
+  if (!board) return;
+  const lanes = [...board.querySelectorAll('.lane')];
+  if (!lanes.length) return;
+
+  // Reset inline min-height so we measure natural content (CSS min-height 100px as floor)
+  lanes.forEach(l => { l.style.minHeight = ''; });
+
+  // Force reflow so measurements reflect the reset
+  void board.offsetHeight;
+
+  // Find tallest rendered lane
+  let maxH = 0;
+  lanes.forEach(l => {
+    maxH = Math.max(maxH, l.getBoundingClientRect().height);
+  });
+  maxH = Math.ceil(maxH);
+
+  // Apply to all
+  lanes.forEach(l => { l.style.minHeight = maxH + 'px'; });
 }
 
 function makeLane(p, col, swapSelIds){
@@ -1084,10 +1217,10 @@ function makeLane(p, col, swapSelIds){
 
   S.boards[p][col].forEach(card => lane.appendChild(makeCardEl(p, col, card, swapSelIds)));
 
+  // Full lanes are still clickable so the "position is full" toast fires.
   const canPlaceHere =
     S.phase === 'place' && S.placeTurn === p && !S.cover &&
-    S.sel.cardId != null && !S.placements[p] &&
-    S.boards[p][col].length < 2;
+    S.sel.cardId != null && !S.placements[p];
 
   if (canPlaceHere){
     lane.classList.add('clickable');
@@ -1099,7 +1232,7 @@ function makeLane(p, col, swapSelIds){
 
 function makeCardEl(p, col, card, swapSelIds){
   const d = document.createElement('div');
-  d.className = 'card' + (card.fire ? ' fire' : '');
+  d.className = 'card' + (card.fire ? ' fire' : '') + ' on-board-p' + p;
 
   if (S.phase === 'swap' && S.actor === p){
     d.classList.add('selectable');
@@ -1135,15 +1268,21 @@ function makeCardEl(p, col, card, swapSelIds){
       const ch = document.createElement('span');
       ch.className = 'chip' + (pr.isPeptide ? ' peptide' : '');
       const cascade = burnable ? cascadeForPeptide(card, pr.id) : 0;
-      ch.textContent = (burnable ? '🔥 ' : '') + `${pr.name} +${pr.prot}` +
+      const staged = burnable && S.arsonSel.some(x =>
+        x.targetPlayer === p && x.cardId === card.id && x.protId === pr.id);
+      ch.textContent = (burnable ? (staged ? '✓ ' : '🔥 ') : '') +
+                       `${pr.name} +${pr.prot}🛡` +
                        (cascade > 0 ? ` ⚠+${cascade}` : '');
 
       if (burnable){
         ch.classList.add('removable');
         if (cascade > 0) ch.classList.add('cascade-warn');
-        ch.title = cascade > 0
-          ? `Click to burn away. This is the last peptide — ${cascade} glued card(s) will also be discarded.`
-          : 'Click to burn away (arsonist)';
+        if (staged) ch.classList.add('staged');
+        ch.title = staged
+          ? 'Click to unselect this burn target'
+          : (cascade > 0
+              ? `Click to select for burning. This is the last peptide — ${cascade} glued card(s) would also be discarded.`
+              : 'Click to select for burning (arsonist)');
         ch.onclick = e => {
           e.stopPropagation();
           clickProtChip(p, col, card.id, pr.id);
@@ -1163,10 +1302,9 @@ function showMainHandFor(p){
   if (S.phase === 'prot' || S.phase === 'arson' || S.phase === 'swap') return S.actor === p;
   return false;
 }
+/* Protection hand visible whenever the main hand is visible. */
 function showProtHandFor(p){
-  if (S.phase === 'over') return true;
-  if (S.phase === 'prot') return S.actor === p;
-  return false;
+  return showMainHandFor(p);
 }
 
 function renderPanels(){
@@ -1244,7 +1382,7 @@ function makePanel(p){
       if (active2) d.classList.add('selectable');
       if (S.sel.protId === pr.id) d.classList.add('selected');
       d.innerHTML = `<div class="cname">${pr.name}</div>
-                     <div class="stats"><span>🛡 +${pr.prot}</span></div>`;
+                     <div class="stats"><span>+${pr.prot}🛡</span></div>`;
       if (active2) d.onclick = () => clickProtHandCard(p, pr.id);
       ph.appendChild(d);
     });
@@ -1320,7 +1458,7 @@ function renderActions(){
   if (S.phase === 'draw'){
     msg.innerHTML = `<b>Round ${S.round} — Draw phase.</b> Both players draw to 5 main cards. ` +
                     `Player ${S.first} places first this round.` +
-                    (S.round === 1 ? `<br><span style="color:#ffd166">Round 1: no protection, arsonist, or swapping phases — face-off only.</span>` : '');
+                    (S.round === 1 ? `<br><span style="color:#8a2a10;font-weight:700">Round 1: no protection, arsonist, or swapping phases — face-off only.</span>` : '');
     el.appendChild(msg);
     el.appendChild(mkBtn('Draw to 5 cards', doDraw, 'primary'));
 
@@ -1336,7 +1474,7 @@ function renderActions(){
       el.appendChild(mkBtn(`Player ${S.placeTurn}: Reveal my hand`, revealHand, 'primary'));
     } else {
       msg.innerHTML = `<b>Player ${S.placeTurn}</b> — click a card in your hand to select it, then click a board position to place it face-down. ` +
-                      `Once placed, your hand will be hidden automatically.`;
+                      `Each position holds at most 2 stacked main cards. Once placed, your hand will be hidden automatically.`;
       el.appendChild(msg);
     }
 
@@ -1347,9 +1485,9 @@ function renderActions(){
       : 'none';
 
     msg.innerHTML = `<b>Player ${S.actor} — Protection phase.</b> ` +
-      `Board contributors: <b>${detail}</b> → +${total} this round. ` +
-      `You now hold <b>${S.protHands[S.actor].length}</b> protection card(s). ` +
-      `Click one to select it, then click one of your non-Fire cards to attach it.`;
+       `<span style="color:#ffffff">Board contributors: <b style="color:#ffffff">${detail}</b> → +${total} this round.</span> ` +
+      `You hold <b>${S.protHands[S.actor].length}</b> protection card(s). ` +
+      `Click one to select it, then click a non-Fire card to attach it (immediately).`;
     el.appendChild(msg);
     el.appendChild(mkBtn('Done', nextFromProt, 'primary'));
 
@@ -1380,30 +1518,37 @@ function renderActions(){
     msg.style.gap = '10px';
 
     const header = document.createElement('div');
-    let headerHTML = `<b>Player ${S.actor} — Arsonist phase.</b> ${remaining} removal(s) left. `;
+    let headerHTML = `<b>Player ${S.actor} — Arsonist phase.</b> You may remove ${remaining} protection card(s) from your opponent. `;
     if (burnables.length === 0){
       headerHTML += `Player ${targetPlayer} has no protection cards on the board to burn.`;
     } else if (remaining === 0){
-      headerHTML += `All removals used — click Done to continue.`;
+      headerHTML += ` `;
     } else {
-      headerHTML += `Click a 🔥 Burn button below, or click a red chip on Player ${targetPlayer}'s board cards. ` +
-                    `Burning the last Binding peptide on a card also discards all CsgA/BslA on it (still 1 removal).`;
+      headerHTML += `Click a red button below or directly select your target on the board.`;
     }
     header.innerHTML = headerHTML;
     msg.appendChild(header);
 
     if (burnables.length > 0 && remaining > 0){
       burnables.forEach(b => {
+        const staged = S.arsonSel.some(x =>
+          x.targetPlayer === targetPlayer && x.cardId === b.cardId && x.protId === b.protId);
+
         const btn = document.createElement('button');
-        btn.className = 'burn';
-        let inner = `🔥 Burn <b>${b.protName}</b> (+${b.protVal}🛡) — from P${targetPlayer}'s <b>${b.cardName}</b> at Position ${b.colIdx + 1}`;
-        if (b.isPeptide && b.cascade > 0){
-          inner += ` <span style="color:#ffb0a0">(last peptide — ${b.cascade} glued card(s) also discarded)</span>`;
-        } else if (b.isPeptide){
-          inner += ` <span style="color:#a8cfe0">(peptide; glued cards survive — other peptide(s) remain)</span>`;
+        btn.className = 'burn' + (staged ? ' staged' : '');
+        let inner;
+        if (staged){
+          inner = `✓ SELECTED — <span class="burn-name">${b.protName}</span> (+${b.protVal}🛡) from P${targetPlayer}'s <span class="burn-name">${b.cardName}</span> at Pos ${b.colIdx + 1}. Click again to unselect.`;
+        } else {
+          inner = `🔥 Burn <span class="burn-name">${b.protName}</span> (+${b.protVal}🛡) — from P${targetPlayer}'s <span class="burn-name">${b.cardName}</span> at Position ${b.colIdx + 1}`;
+          if (b.isPeptide && b.cascade > 0){
+            inner += ` <span style="color:#ffb0a0">(last peptide — ${b.cascade} glued card(s) also discarded)</span>`;
+          } else if (b.isPeptide){
+            inner += ` <span style="color:#a8cfe0">(peptide; glued cards survive — other peptide(s) remain)</span>`;
+          }
         }
         btn.innerHTML = inner;
-        btn.onclick = () => clickProtChip(targetPlayer, b.colIdx, b.cardId, b.protId);
+        btn.onclick = () => toggleArsonSel(targetPlayer, b.colIdx, b.cardId, b.protId);
         msg.appendChild(btn);
       });
     }
@@ -1426,7 +1571,7 @@ function renderActions(){
     const summary = document.createElement('div');
     summary.innerHTML = `<b>Player ${S.actor} — Swapping phase.</b> ` +
       `Select board card(s) in one column, then hand card(s). ` +
-      `<span style="color:${inCur <= outCur ? '#5fe0b5' : '#ff8b7d'}">` +
+      `<span style="color:${inCur <= outCur ? '#0a6a3a' : '#a02010'};font-weight:700">` +
       `Outgoing 💰${outCur} → Incoming 💰${inCur}</span>`;
     msg.appendChild(summary);
 
@@ -1535,6 +1680,11 @@ document.getElementById('newgame').onclick = () => {
 };
 
 newGame();
+
+// Re-equalize lane heights if window is resized (text wrapping changes)
+window.addEventListener('resize', () => {
+  if (typeof equalizeLanes === 'function') equalizeLanes();
+});
 </script>
 </body>
 </html>
