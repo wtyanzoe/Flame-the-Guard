@@ -222,27 +222,31 @@
   <div class="left">
     <div class="board" id="board"></div>
     <div id="actions"></div>
-    <details class="rules">
-      <summary>Rules notes &amp; interpretation choices</summary>
-      <p><b>Deck size:</b> the listed frequencies total 80 cards (50 main + 30 protection), not 105. The deck is built from the listed frequencies — edit <code>MAIN_DEFS</code>/<code>PROT_DEFS</code> in the script to reach 105.</p>
-      <p><b>Positions:</b> 5 positions. Each player has a lane at each position and may stack up to 2 main cards per lane — so 2×5 = 10 slots per player.</p>
-      <p><b>First player:</b> No RPS. Player 1 places first on odd rounds, Player 2 on even rounds.</p>
-      <p><b>Pass-and-play placement:</b> both hands hidden until a player taps "Reveal my hand". Each player places face-down, then hands device over. "Flip cards" reveals both placements.</p>
-      <p><b>Round 1:</b> Draw → Place → Flip → Face-off only. Scientist / Construction worker / Arsonist abilities do <em>not</em> activate. No protection, no arsonist removal, no swapping.</p>
-      <p><b>Round 2+:</b> Draw → Place → Flip → Protection → Arsonist removal → Swapping → Face-off.</p>
-      <p><b>Protection draw:</b> every Construction worker <b>on the board</b> gives +1; every Scientist <b>on the board</b> gives +2. Draws accumulate across rounds. A Scientist placed in round N contributes in round N+1 onward, as long as it remains on the board. Only drawn <b>once per round per player</b>. If a Scientist is destroyed or swapped away, it stops contributing.</p>
-      <p><b>Protection card disposition:</b> a protection card is attached to a specific main card. <b>Whenever that main card leaves the board — destroyed by face-off, discarded by swap, or any other means — its protection cards are discarded with it. They never return to the protection hand.</b></p>
-      <p><b>Face-off:</b> triggered when both players have at least one card in the same position. Stacked cards pool ATK and RES; protection cards add to RES.</p>
-      <p><b>Combat (simultaneous):</b> both directions resolve from the pre-combat state. ATK &gt; RES → destroyed + (ATK−RES) fire barriers lost. ATK = RES → destroyed, no barriers lost. ATK &lt; RES → absorbed. Each contested position is reviewed with an <b>OK — Resolve</b> button.</p>
-      <p><b>Binding peptide:</b> CsgA and BslA require a Binding peptide on <em>that specific</em> main card first. Once a peptide is on a card, any number of CsgA/BslA may be attached using that glue. A different card needs its own peptide.</p>
-      <p><b>Arsonist:</b> each Arsonist on your board lets you remove 1 opponent protection card per round. Inactive in round 1. <b>🔥 Burn</b> buttons appear in the action bar for each burnable protection card. Selections are staged — click Done to apply all of them at once. If you burn a Binding peptide, and that was the last peptide on the card, all CsgA and BslA attached to that card are also discarded (still costs only 1 removal). Burning a CsgA or BslA on its own does not remove the peptide.</p>
-      <p><b>Protection placement:</b> select a protection card from your hand, then click a target non-Fire card — it attaches immediately. Click Done when finished.</p>
-      <p><b>Swap:</b> select board card(s) in one column, then hand card(s); incoming total currency must be <b>≤</b> outgoing total, and the column may not exceed 2 main cards. <b>Cards swapped off the board are discarded — along with any protection cards attached to them.</b></p>
-      <p><b>Game end — fire barriers depleted:</b> a player who loses all 10 fire barriers loses immediately; the other player wins.</p>
-      <p><b>Game end — deck exhaustion:</b> if the <b>main deck</b> cannot supply enough cards for both players to draw to 5 at the start of a round, or if the <b>protection deck</b> cannot supply enough cards for both players' combined protection draws in a round, the game ends immediately at that point (the round does not complete). <b>The player with more fire barriers remaining wins. If barriers are tied, the game is a draw.</b></p>
-      <p style="color:#ffd166"><b>Example:</b> in Round 10, Player 1 has 2 Construction workers (2 protection draws) and Player 2 has 1 Scientist (2 draws). Total needed for the round = 4. If the protection deck has fewer than 4 cards, the game ends in Round 10 before either player draws. The player with more fire barriers remaining wins; tie → draw.</p>
-      <p><b>🔍 State:</b> click the header button at any time to dump full game state to the log.</p>
-    </details>
+<details class="rules">
+  <summary>Rules notes</summary>
+  <p><b>Deck size:</b> 80 cards (50 main + 30 protection). Built from the listed frequencies in MAIN_DEFS/PROT_DEFS. Fire barriers are tracked separately and are not counted as deck cards.</p>
+  <p><b>Positions:</b> 5 positions. Each player has a lane at each position and may stack up to 2 main cards per lane — so 2×5 = 10 slots per player.</p>
+  <p><b>First player:</b> Player 1 places first on odd rounds, Player 2 on even rounds.</p>
+  <p><b>Pass-and-play placement:</b> both hands hidden until a player taps "Reveal my hand". Each player places face-down, then hands device over. "Flip cards" reveals both placements.</p>
+  <p><b>Round 1:</b> Draw → Place → Flip → Face-off only. Scientist / Construction worker / Arsonist abilities do <em>not</em> activate. No protection, no arsonist removal, no swapping.</p>
+  <p><b>Round 2+:</b> Draw → Place → Flip → Protection → Arsonist removal → Swapping → Face-off.</p>
+  <p><b>Protection draw:</b> every Construction worker <b>on the board</b> adds +1 protection card; every Scientist <b>on the board</b> adds +2 protection cards. All of a player's protection draws for the round happen at once during their protection phase. A card placed in round N (and still on the board) contributes in round N and every round thereafter — <b>including the round it was placed</b>. If a Construction worker or Scientist leaves the board (destroyed, swapped away, etc.), it stops contributing.</p>
+  <p><b>Protection placement:</b> select a protection card from your hand, then click a target non-Fire card — it attaches immediately. Click Done when finished.</p>
+  <p><b>Binding peptide:</b> CsgA and BslA require a Binding peptide on <em>that specific</em> main card first. Once a peptide is on a card, any number of CsgA/BslA may be attached using that glue. A different card needs its own peptide.</p>
+  <p><b>Protection card disposition:</b> a protection card is attached to a specific main card. <b>Whenever that main card leaves the board — destroyed by face-off, discarded by swap, or any other means — its protection cards are discarded with it. They never return to the protection hand.</b></p>
+  <p><b>Arsonist:</b> each Arsonist on your board lets you remove 1 opponent protection card per round. Inactive in round 1. <b>🔥 Burn</b> buttons appear in the action bar for each burnable protection card. Selections are staged — click Done to apply all of them at once. If you burn a Binding peptide, and that was the last peptide on the card, all CsgA and BslA attached to that card are also discarded (still costs only 1 removal). Burning a CsgA or BslA on its own does not remove the peptide.</p>
+  <p><b>Swap:</b> select board card(s) in one column, then hand card(s); incoming total currency (💰) must be <b>≤</b> outgoing total, and the column may not exceed 2 main cards. <b>Cards swapped off the board are discarded — along with any protection cards attached to them.</b></p>
+  <p><b>Face-off:</b> triggered when both players have at least one card in the same position. Stacked cards pool their ⚔ ATK and 🛡 RES; protection cards add to 🛡 RES.</p>
+  <p><b>Combat (simultaneous):</b> both directions resolve from the pre-combat state, comparing the attacker's ⚔ ATK against the defender's 🛡 RES:<br>
+    • ⚔ ATK &gt; 🛡 RES → defender destroyed; defender loses (⚔ ATK − 🛡 RES) fire barriers.<br>
+    • ⚔ ATK = 🛡 RES → defender destroyed; 0 fire barriers lost.<br>
+    • ⚔ ATK &lt; 🛡 RES → absorbed; nothing happens.<br>
+    Each contested position is reviewed with an <b>OK — Resolve</b> button.</p>
+  <p><b>Game end — fire barriers depleted:</b> a player who loses all 10 fire barriers loses immediately; the other player wins.</p>
+  <p><b>Game end — deck exhaustion:</b> if the <b>main deck</b> cannot supply enough cards for both players to draw to 5 at the start of a round, or if the <b>protection deck</b> cannot supply enough cards for both players' combined protection draws in a round, the game ends immediately at that point (the round does not complete). <b>The player with more fire barriers remaining wins. If barriers are tied, the game is a draw.</b></p>
+  <p style="color:#ffd166"><b>Example:</b> in Round 10, Player 1 has 2 Construction workers (2 protection draws) and Player 2 has 1 Scientist (2 draws). Total needed for the round = 4. If the protection deck has fewer than 4 cards, the game ends in Round 10 before either player draws. The player with more fire barriers remaining wins; tie → draw.</p>
+  <p><b>🔍 State:</b> click the header button at any time to dump full game state to the log.</p>
+</details>
   </div>
 
   <aside class="right">
