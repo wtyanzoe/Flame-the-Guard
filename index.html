@@ -33,7 +33,6 @@
   }
   @media(max-width:1000px){ .layout{grid-template-columns:1fr} }
 
-  /* ─── Board ──────────────────────────────────────────────── */
   .board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
   .column{
     background:linear-gradient(180deg,#1c1715,#191413);
@@ -63,7 +62,6 @@
   .lane.clickable:hover{background:rgba(255,209,102,.28)}
   .midline{height:1px;flex:0 0 1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.5}
 
-  /* ─── Cards ──────────────────────────────────────────────── */
   .card{
     background:linear-gradient(180deg,#2b2320,#241e1b);
     border:1px solid #4a3c35;border-radius:8px;padding:6px 8px;
@@ -86,7 +84,6 @@
   .card.targetable:hover{border-color:#5fe0b5}
   .card.swap-warn{border-color:#e88a3a;box-shadow:0 0 0 2px rgba(232,138,58,.4)}
 
-  /* ─── Protection chips ───────────────────────────────────── */
   .prot-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;max-width:100%}
   .chip{
     font-size:13px;background:#2a2420;border:1px solid #5a4a40;border-radius:4px;
@@ -101,7 +98,6 @@
   .card .chip.removable.staged{background:#8a4a1a;border-color:#ffd166;color:#ffe8c8;box-shadow:0 0 12px -2px #ffd166}
   .card .chip.cascade-warn{border-color:#ff6b35;box-shadow:0 0 10px -1px #ff6b35}
 
-  /* ─── Side panels ────────────────────────────────────────── */
   .ppanel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px}
   .ppanel.p1{border-top:3px solid var(--p1)}
   .ppanel.p2{border-top:3px solid var(--p2)}
@@ -120,7 +116,6 @@
   .prot-hand .card{width:auto;font-size:14px}
   .empty{color:#5f524b;font-size:15px;font-style:italic}
 
-  /* ─── Action bar ─────────────────────────────────────────── */
   #actions{
     margin-top:16px;background:#d4b483;border:2px solid #8a6a3a;
     border-radius:12px;padding:14px 16px;
@@ -130,11 +125,9 @@
   #actions .msg{flex:1;min-width:240px;font-size:17px;color:#1a1410;line-height:1.5;font-weight:500}
   #actions .msg b{color:#000}
   #actions .msg button.burn .burn-name{color:#ffe8c8;font-weight:700}
-  /* Column layouts for arson/swap messages */
   .action-msg-col{display:flex;flex-direction:column;gap:10px}
   .action-msg-col-tight{display:flex;flex-direction:column;gap:8px}
 
-  /* ─── Buttons ────────────────────────────────────────────── */
   button{
     background:linear-gradient(180deg,#3a2e28,#2b221e);color:var(--text);
     border:1px solid #57463d;border-radius:8px;padding:11px 18px;font-size:16px;
@@ -155,7 +148,6 @@
   }
   button.state{background:linear-gradient(180deg,#2a2419,#1f1a10);border-color:#5a4a35;font-size:14px;padding:8px 14px}
 
-  /* ─── Misc panels ────────────────────────────────────────── */
   .swap-warning{
     background:linear-gradient(180deg,#4a2a1a,#3a1f14);border:1px solid #a05a2a;
     color:#ffce9e;padding:8px 12px;border-radius:8px;font-size:15px;width:100%;
@@ -170,7 +162,6 @@
   .faceoff-outcomes{font-size:14px;margin-top:10px;line-height:1.6;color:#2a1e14}
   .faceoff-outcomes div{padding:2px 0}
 
-  /* ─── Log ────────────────────────────────────────────────── */
   .log{
     background:#100d0c;border:1px solid var(--line);border-radius:12px;
     padding:12px 14px;height:260px;overflow-y:auto;font-size:16px;line-height:1.6;
@@ -181,7 +172,6 @@
   .log div.good{color:#5fe0b5}
   .log div.dim{color:#6f6259;font-size:14px}
 
-  /* ─── Modal ──────────────────────────────────────────────── */
   .modal{position:fixed;inset:0;background:rgba(8,6,5,.88);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(3px)}
   .modal.hidden{display:none}
   .modalbox{
@@ -192,7 +182,6 @@
   .modalbox h2{margin:0 0 14px;font-size:30px;color:var(--accent)}
   .modalbox p{color:#cdbfb7;line-height:1.6;margin:10px 0;font-size:18px}
 
-  /* ─── Toast ──────────────────────────────────────────────── */
   .toast{
     position:fixed;left:50%;bottom:32px;transform:translateX(-50%);
     background:#ffd166;color:#1a1410;border:2px solid #ff6b35;border-radius:12px;
@@ -202,19 +191,78 @@
   }
   @keyframes fade{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
 
-  /* ─── Rules dropdown ─────────────────────────────────────── */
   details.rules{margin-top:14px;font-size:16px;color:var(--dim)}
   details.rules summary{cursor:pointer;color:#c8a68f;padding:6px 0;font-size:17px}
   details.rules p{margin:8px 0;line-height:1.6}
+
+  .ai-thinking{color:#a02820 !important;font-style:italic}
+
+  /* ─── Menu screen ─── */
+  #menu-screen{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-height:100vh;padding:40px 20px;text-align:center;
+  }
+  #menu-screen.hidden, #game-screen.hidden{display:none}
+  .menu-flame{font-size:64px;line-height:1;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(255,107,53,.5))}
+  .menu-title{
+    font-size:44px;margin:0 0 6px;letter-spacing:1.5px;
+    background:linear-gradient(180deg,#ffb347,#ff6b35);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .menu-subtitle{color:var(--dim);font-size:17px;margin:0 0 44px;letter-spacing:.5px}
+  .mode-buttons{display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
+  .mode-btn{
+    width:280px;padding:28px 26px;border-radius:14px;
+    text-align:left;display:flex;flex-direction:column;gap:8px;
+    background:linear-gradient(180deg,#2e2420,#221a17);
+    border:1px solid #4a3c35;color:var(--text);cursor:pointer;font-family:inherit;
+    transition:transform .15s, border-color .15s, box-shadow .15s;
+  }
+  .mode-btn:hover{
+    transform:translateY(-3px);
+    border-color:var(--accent);
+    box-shadow:0 10px 28px -8px rgba(255,107,53,.45);
+  }
+  .mode-btn .m-icon{font-size:42px;line-height:1;margin-bottom:2px}
+  .mode-btn .m-label{font-size:22px;color:var(--gold);font-weight:700}
+  .mode-btn .m-desc{font-size:14px;color:var(--dim);font-weight:400;line-height:1.5}
+
+  #menu-btn{
+    background:linear-gradient(180deg,#2a2419,#1f1a10);
+    border-color:#5a4a35;font-size:14px;padding:8px 14px;
+  }
 </style>
 </head>
 <body>
 
+<!-- ══════════════ MENU SCREEN ══════════════ -->
+<div id="menu-screen">
+  <div class="menu-flame">🔥</div>
+  <h1 class="menu-title">Flame the Guard / Guard the Flame</h1>
+  <p class="menu-subtitle">A card game of fire, protection, and sabotage</p>
+  <div class="mode-buttons">
+    <button class="mode-btn" id="btn-pvp">
+      <div class="m-icon">👥</div>
+      <div class="m-label">Play with a friend</div>
+      <div class="m-desc">Pass-and-play on one device. Both hands are hidden until each player reveals their own.</div>
+    </button>
+    <button class="mode-btn" id="btn-ai">
+      <div class="m-icon">🤖</div>
+      <div class="m-label">Play alone</div>
+      <div class="m-desc">You play as Player 1. Player 2 is controlled by an AI opponent.</div>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════ GAME SCREEN ══════════════ -->
+<div id="game-screen" class="hidden">
+
 <header>
   <h1>🔥 Flame the Guard/Guard the Flame</h1>
-  <span id="ver">v3</span>
+  <span id="ver">v4</span>
   <div id="status"></div>
-  <button id="showstate" class="state" style="margin-left:auto">🔍 State</button>
+  <button id="menu-btn" style="margin-left:auto">← Menu</button>
+  <button id="showstate" class="state">🔍 State</button>
   <button id="newgame">New Game</button>
 </header>
 
@@ -224,27 +272,39 @@
     <div id="actions"></div>
 <details class="rules">
   <summary>Rules notes</summary>
+  <p><b>Game modes:</b> choose "Play with a friend" for pass-and-play on one device, or "Play alone" to face an AI opponent as Player 2.</p>
   <p><b>Deck size:</b> 80 cards (50 main + 30 protection). Built from the listed frequencies in MAIN_DEFS/PROT_DEFS. Fire barriers are tracked separately and are not counted as deck cards.</p>
   <p><b>Positions:</b> 5 positions. Each player has a lane at each position and may stack up to 2 main cards per lane — so 2×5 = 10 slots per player.</p>
   <p><b>First player:</b> Player 1 places first on odd rounds, Player 2 on even rounds.</p>
   <p><b>Pass-and-play placement:</b> both hands hidden until a player taps "Reveal my hand". Each player places face-down, then hands device over. "Flip cards" reveals both placements.</p>
+  <p><b>AI mode:</b> P2's hand is always hidden. The AI auto-places, draws and attaches protections, burns your protections with Arsonists, and passes on swapping.</p>
   <p><b>Round 1:</b> Draw → Place → Flip → Face-off only. Scientist / Construction worker / Arsonist abilities do <em>not</em> activate. No protection, no arsonist removal, no swapping.</p>
   <p><b>Round 2+:</b> Draw → Place → Flip → Protection → Arsonist removal → Swapping → Face-off.</p>
-  <p><b>Protection draw:</b> every Construction worker <b>on the board</b> adds +1 protection card; every Scientist <b>on the board</b> adds +2 protection cards. All of a player's protection draws for the round happen at once during their protection phase. A card placed in round N (and still on the board) contributes in round N and every round thereafter — <b>including the round it was placed</b>. If a Construction worker or Scientist leaves the board (destroyed, swapped away, etc.), it stops contributing.</p>
+
+  <p><b>Protection draw:</b> every Construction worker <b>on the board</b> adds +1 protection card; every Scientist <b>on the board</b> adds +2 protection cards. All of a player's protection draws for the round happen at once during their protection phase. A card placed in round N (and still on the board) contributes in round N and every round thereafter — <b>including the round it was placed</b>. If a Construction worker or Scientist leaves the board, it stops contributing.</p>
+
   <p><b>Protection placement:</b> select a protection card from your hand, then click a target non-Fire card — it attaches immediately. Click Done when finished.</p>
-  <p><b>Binding peptide:</b> CsgA and BslA require a Binding peptide on <em>that specific</em> main card first. Once a peptide is on a card, any number of CsgA/BslA may be attached using that glue. A different card needs its own peptide.</p>
+
+  <p><b>Binding peptide:</b> CsgA and BslA require a Binding peptide on <em>that specific</em> main card first. Once a peptide is on a card, any number of CsgA/BslA may be attached using that glue.</p>
+
   <p><b>Protection card disposition:</b> a protection card is attached to a specific main card. <b>Whenever that main card leaves the board — destroyed by face-off, discarded by swap, or any other means — its protection cards are discarded with it. They never return to the protection hand.</b></p>
-  <p><b>Arsonist:</b> each Arsonist on your board lets you remove 1 opponent protection card per round. Inactive in round 1. <b>🔥 Burn</b> buttons appear in the action bar for each burnable protection card. Selections are staged — click Done to apply all of them at once. If you burn a Binding peptide, and that was the last peptide on the card, all CsgA and BslA attached to that card are also discarded (still costs only 1 removal). Burning a CsgA or BslA on its own does not remove the peptide.</p>
+
+  <p><b>Arsonist:</b> each Arsonist on your board lets you remove 1 opponent protection card per round. Inactive in round 1. <b>🔥 Burn</b> buttons appear in the action bar for each burnable protection card. Selections are staged — click Done to apply all of them at once. If you burn a Binding peptide, and that was the last peptide on the card, all CsgA and BslA attached to that card are also discarded (still costs only 1 removal).</p>
+
   <p><b>Swap:</b> select board card(s) in one column, then hand card(s); incoming total currency (💰) must be <b>≤</b> outgoing total, and the column may not exceed 2 main cards. <b>Cards swapped off the board are discarded — along with any protection cards attached to them.</b></p>
+
   <p><b>Face-off:</b> triggered when both players have at least one card in the same position. Stacked cards pool their ⚔ ATK and 🛡 RES; protection cards add to 🛡 RES.</p>
+
   <p><b>Combat (simultaneous):</b> both directions resolve from the pre-combat state, comparing the attacker's ⚔ ATK against the defender's 🛡 RES:<br>
     • ⚔ ATK &gt; 🛡 RES → defender destroyed; defender loses (⚔ ATK − 🛡 RES) fire barriers.<br>
     • ⚔ ATK = 🛡 RES → defender destroyed; 0 fire barriers lost.<br>
     • ⚔ ATK &lt; 🛡 RES → absorbed; nothing happens.<br>
     Each contested position is reviewed with an <b>OK — Resolve</b> button.</p>
+
   <p><b>Game end — fire barriers depleted:</b> a player who loses all 10 fire barriers loses immediately; the other player wins.</p>
-  <p><b>Game end — deck exhaustion:</b> if the <b>main deck</b> cannot supply enough cards for both players to draw to 5 at the start of a round, or if the <b>protection deck</b> cannot supply enough cards for both players' combined protection draws in a round, the game ends immediately at that point (the round does not complete). <b>The player with more fire barriers remaining wins. If barriers are tied, the game is a draw.</b></p>
-  <p style="color:#ffd166"><b>Example:</b> in Round 10, Player 1 has 2 Construction workers (2 protection draws) and Player 2 has 1 Scientist (2 draws). Total needed for the round = 4. If the protection deck has fewer than 4 cards, the game ends in Round 10 before either player draws. The player with more fire barriers remaining wins; tie → draw.</p>
+
+  <p><b>Game end — deck exhaustion:</b> if the <b>main deck</b> cannot supply enough cards for both players to draw to 5 at the start of a round, or if the <b>protection deck</b> cannot supply enough cards for both players' combined protection draws in a round, the game ends immediately at that point. <b>The player with more fire barriers remaining wins. If barriers are tied, the game is a draw.</b></p>
+
   <p><b>🔍 State:</b> click the header button at any time to dump full game state to the log.</p>
 </details>
   </div>
@@ -256,29 +316,17 @@
   </aside>
 </div>
 
+</div><!-- /#game-screen -->
+
 <div id="modal" class="modal hidden"></div>
 
 <script>
 /* =========================================================
-   FLAME THE GUARD / GUARD THE FLAME — v3
-   =========================================================
-   Architecture map (search for "§" to jump between sections):
-
-     §1  Constants            — phases, labels, card definitions
-     §2  State                — single game-state object + factory
-     §3  Utilities            — small pure helpers
-     §4  Logging & debug      — log, toast, state dump
-     §5  Game lifecycle       — new game, round start, draw, place
-     §6  Phase transitions    — prot → arson → swap → resolve → over
-     §7  Game mechanics       — combat math, burn, discard
-     §8  Interactions         — user click handlers
-     §9  Rendering — board    — status, board, lanes, cards, chips
-     §10 Rendering — panels   — player panels, hands
-     §11 Rendering — actions  — one function per phase
-     §12 Log renderer
-     §13 Boot                 — wire up, start
+   FLAME THE GUARD / GUARD THE FLAME — v4
+   Two modes: 'pvp' (pass-and-play) and 'ai' (vs computer).
+   All AI decisions go through the same functions the human
+   UI uses, so game rules are never duplicated.
    ========================================================= */
-
 
 /* =========================================================
    §1  CONSTANTS
@@ -326,6 +374,13 @@ const PROT_DEFS = [
   {name:'BslA',                     freq:6, prot:2, needsPeptide:true},
   {name:'Binding peptide',          freq:6, prot:0, isPeptide:true},
 ];
+
+const AI_PLAYER = 2;
+const AI_DELAY  = 850;
+
+let GAME_MODE = 'pvp';           // 'pvp' | 'ai'
+let AI_GENERATION = 0;           // incremented on newGame so stale AI timers no-op
+const isAI = p => GAME_MODE === 'ai' && p === AI_PLAYER;
 
 
 /* =========================================================
@@ -412,6 +467,8 @@ function makeActionMsg(){
   return m;
 }
 
+const playerTag = p => isAI(p) ? `Player ${p} (AI)` : `Player ${p}`;
+
 
 /* =========================================================
    §4  LOGGING & DEBUG
@@ -448,9 +505,13 @@ function stateDump(){
         log(`  P${p} Pos${col+1}: ${card.name} (ATK ${card.atk}, RES ${card.res}, CUR ${card.cur})${prot ? ' [' + prot + ']' : ''}`, 'dim');
       });
     });
-    S.protHands[p].forEach((pr, i) => {
-      log(`  P${p} protHand[${i}]: ${pr.name} (+${pr.prot}) id=${pr.id}`, 'dim');
-    });
+    if (isAI(p)){
+      log(`  P${p} protHand: [${S.protHands[p].length} cards hidden — AI]`, 'dim');
+    } else {
+      S.protHands[p].forEach((pr, i) => {
+        log(`  P${p} protHand[${i}]: ${pr.name} (+${pr.prot}) id=${pr.id}`, 'dim');
+      });
+    }
   });
   log('═══ END STATE ═══', 'hl');
   renderLog();
@@ -463,10 +524,13 @@ function stateDump(){
 
 function newGame(){
   uid = 0;
+  AI_GENERATION++;
   S = defaultState();
   S.deck     = shuffle(buildDeck(MAIN_DEFS, 'main'));
   S.protDeck = shuffle(buildDeck(PROT_DEFS, 'prot'));
-  log('New game started. (v3)', 'hl');
+  const modeLabel = GAME_MODE === 'ai' ? 'vs AI' : 'pass-and-play';
+  log(`New game started. (v4 · ${modeLabel})`, 'hl');
+  if (GAME_MODE === 'ai') log('You are Player 1. Player 2 is controlled by the AI.');
   log(`Decks built: main=${S.deck.length}, protection=${S.protDeck.length}.`);
   render();
   startRound();
@@ -488,7 +552,7 @@ function startRound(){
   resetRoundFields();
 
   log(`— Round ${S.round} —`, 'hl');
-  log(`Player ${S.first} places first this round.`);
+  log(`${playerTag(S.first)} places first this round.`);
   if (S.round === 1){
     log('Round 1: Scientist, Construction worker, and Arsonist abilities are inactive. Face-off only.', 'hl');
   }
@@ -525,7 +589,7 @@ function doDraw(){
   drawTo(1, 5);
   drawTo(2, 5);
   const d1 = S.hands[1].length - b1, d2 = S.hands[2].length - b2;
-  log(`Player 1 drew ${d1} card(s). Player 2 drew ${d2} card(s).`);
+  log(`Player 1 drew ${d1} card(s). ${playerTag(2)} drew ${d2} card(s).`);
   if (d1 === 0 && d2 === 0) log('Both players already hold 5 cards — no draw needed.');
   beginPlacement();
 }
@@ -538,21 +602,26 @@ function beginPlacement(){
   S.phase = PHASES.PLACE;
   S.sel = {};
   S.placements = {1:null, 2:null};
-  S.cover = true;
+  S.cover = (GAME_MODE === 'pvp');
   S.placeTurn = null;
 
   [1, 2].forEach(p => {
     if (!canPlace(p)){
       S.placements[p] = 'skip';
-      log(`Player ${p} cannot place this round (no cards or board full).`);
+      log(`${playerTag(p)} cannot place this round (no cards or board full).`);
     }
   });
 
   S.placeTurn = pickNextPlacer();
   if (S.placeTurn === null){
     log('Both players are ready. Click Flip cards to reveal.');
-  } else {
+  } else if (isAI(S.placeTurn)){
+    log(`${playerTag(S.placeTurn)} is placing…`);
+    aiSchedule(aiPlace);
+  } else if (GAME_MODE === 'pvp'){
     log(`Pass the device to Player ${S.placeTurn}. Click Reveal my hand when ready.`);
+  } else {
+    log(`Player ${S.placeTurn}: place a card face-down.`);
   }
   render();
 }
@@ -566,12 +635,14 @@ function pickNextPlacer(){
 
 function revealHand(){
   if (S.phase !== PHASES.PLACE || S.placeTurn === null) return;
+  if (isAI(S.placeTurn)) return;
   S.cover = false;
   render();
 }
 
 function clickColumn(p, col){
-  if (S.phase !== PHASES.PLACE || p !== S.placeTurn || S.cover) return;
+  if (S.phase !== PHASES.PLACE || p !== S.placeTurn) return;
+  if (S.cover) return;
   if (S.sel.cardId == null) { toast('Select a card from your hand first'); return; }
   if (S.boards[p][col].length >= 2){
     toast('That position is full — you can only stack 2 main cards per position');
@@ -584,13 +655,21 @@ function clickColumn(p, col){
   S.hands[p] = S.hands[p].filter(c => c.id !== card.id);
   S.placements[p] = { card, col };
   S.sel.cardId = null;
-  log(`Player ${p} placed a card face-down at position ${col + 1}.`);
+  log(`${playerTag(p)} placed a card face-down at position ${col + 1}.`);
 
-  S.cover = true;
+  if (GAME_MODE === 'pvp') S.cover = true;
+
   const other = opp(p);
   if (S.placements[other] === null && canPlace(other)){
     S.placeTurn = other;
-    log(`Pass the device to Player ${other}.`);
+    if (isAI(other)){
+      log(`${playerTag(other)} is placing…`);
+      aiSchedule(aiPlace);
+    } else if (GAME_MODE === 'pvp'){
+      log(`Pass the device to Player ${other}.`);
+    } else {
+      log(`Player ${other}: place a card face-down.`);
+    }
   } else if (S.placements[other] === null){
     S.placements[other] = 'skip';
     log(`Player ${other} cannot place.`);
@@ -610,10 +689,11 @@ function reveal(){
     const pl = S.placements[p];
     if (pl && pl !== 'skip'){
       S.boards[p][pl.col].push(pl.card);
-      log(`Player ${p} revealed ${pl.card.name} at position ${pl.col + 1}.`, 'good');
+      log(`${playerTag(p)} revealed ${pl.card.name} at position ${pl.col + 1}.`, 'good');
     }
   });
   S.placements = {1:null, 2:null};
+  S.cover = false;
 
   for (let c = 0; c < 5; c++){
     if (S.boards[1][c].length && S.boards[2][c].length){
@@ -634,8 +714,6 @@ function reveal(){
 /* =========================================================
    §6  PHASE TRANSITIONS
    ========================================================= */
-
-/* ─── Protection ─── */
 
 function startProtTurn(p){
   S.phase = PHASES.PROT;
@@ -671,22 +749,20 @@ function startProtTurn(p){
   S.protDrawnThisRound[p] = true;
   const after = S.protHands[p].length;
 
-  if (after !== before + drawn){
-    log(`⚠ STATE ERROR: P${p} protHand corrupted! before=${before}, drawn=${drawn}, after=${after}`, 'bad');
-  }
-
   logBoardComposition(p);
 
   if (total > 0){
     const detail = contributors.map(c => `${c.name}@pos${c.col+1}(+${c.amount})`).join(', ');
-    log(`Player ${p} draws ${drawn} protection card(s) — board contributors: ${detail}.`, 'good');
+    log(`${playerTag(p)} draws ${drawn} protection card(s) — board contributors: ${detail}.`, 'good');
     log(`Player ${p} protection hand: ${before} → ${after}.`);
     if (drawn < total) log(`Protection deck exhausted — ${total - drawn} draw(s) skipped.`, 'bad');
   } else {
-    log(`Player ${p} has no Scientist / Construction worker on board — no protection draw.`, 'dim');
+    log(`${playerTag(p)} has no Scientist / Construction worker on board — no protection draw.`, 'dim');
   }
 
   render();
+
+  if (isAI(p)) aiSchedule(aiProtection);
 }
 
 function nextFromProt(){
@@ -694,8 +770,6 @@ function nextFromProt(){
   if (S.actor === S.first) startProtTurn(opp(S.first));
   else startArsonTurn(S.first);
 }
-
-/* ─── Arsonist ─── */
 
 function startArsonTurn(p){
   S.phase = PHASES.ARSON;
@@ -706,6 +780,7 @@ function startArsonTurn(p){
   if (S.arsonTurnTakenThisRound[p]){
     log(`Player ${p}: arson turn already taken this round — skipping.`, 'hl');
     render();
+    if (isAI(p)) aiSchedule(nextFromArson);
     return;
   }
 
@@ -721,11 +796,15 @@ function startArsonTurn(p){
         burnableCount += (card.protections || []).length;
       });
     });
-    log(`Player ${p}: ${n} Arsonist(s) — may remove up to ${n} opponent protection card(s). ` +
-        `${burnableCount} burnable target(s) visible on Player ${targetPlayer}'s board.`);
+    log(`${playerTag(p)}: ${n} Arsonist(s) — may remove up to ${n} opponent protection card(s). ` +
+        `${burnableCount} burnable target(s) visible on ${playerTag(targetPlayer)}'s board.`);
+  } else {
+    log(`${playerTag(p)}: no Arsonist on board — no removals this round.`, 'dim');
   }
 
   render();
+
+  if (isAI(p)) aiSchedule(aiArson);
 }
 
 function commitArsonSelections(){
@@ -752,13 +831,13 @@ function nextFromArson(){
   else startSwapTurn(S.first);
 }
 
-/* ─── Swapping ─── */
-
 function startSwapTurn(p){
   S.phase = PHASES.SWAP;
   S.actor = p;
   S.sel = { out: [], in: [], col: null };
   render();
+
+  if (isAI(p)) aiSchedule(aiSwap);
 }
 
 function nextFromSwap(){
@@ -766,8 +845,6 @@ function nextFromSwap(){
   if (S.actor === S.first) startSwapTurn(opp(S.first));
   else startResolve();
 }
-
-/* ─── Face-off resolution ─── */
 
 function startResolve(){
   S.phase = PHASES.RESOLVE;
@@ -828,22 +905,16 @@ function gameOver(){
   S.phase = PHASES.OVER;
   const loser = S.barriers[1] <= 0 ? 1 : 2;
   const winner = opp(loser);
-  log(`Player ${winner} wins — Player ${loser} lost all fire barriers!`, 'hl');
+  log(`${playerTag(winner)} wins — ${playerTag(loser)} lost all fire barriers!`, 'hl');
   render();
 
-  const m = document.getElementById('modal');
-  m.classList.remove('hidden');
-  m.innerHTML = `
-    <div class="modalbox">
-      <h2>🏆 Player ${winner} Wins!</h2>
-      <p>Player ${loser} has lost all 10 fire barriers.</p>
-      <p style="color:#7d6f67;font-size:14px">Rounds played: ${S.round}</p>
-      <button class="primary" id="again">Play again</button>
-    </div>`;
-  m.querySelector('#again').onclick = () => {
-    m.classList.add('hidden');
-    newGame();
-  };
+  showEndModal({
+    title: winner === 1 && GAME_MODE === 'pvp' ? '🏆 Player 1 Wins!'
+         : isAI(winner) ? '💀 Player 2 (AI) Wins!'
+         : '🏆 Player 1 Wins!',
+    subtitle: `${playerTag(loser)} has lost all 10 fire barriers.`,
+    bodyHTML: `<p style="color:#7d6f67;font-size:14px">Rounds played: ${S.round}</p>`,
+  });
 }
 
 function deckExhaustionGameOver(deckType){
@@ -859,8 +930,8 @@ function deckExhaustionGameOver(deckType){
     title    = `🏆 Player 1 Wins!`;
     subtitle = `Player 1 has more fire barriers remaining (${b1} vs ${b2}).`;
   } else if (b2 > b1){
-    title    = `🏆 Player 2 Wins!`;
-    subtitle = `Player 2 has more fire barriers remaining (${b2} vs ${b1}).`;
+    title    = isAI(2) ? `💀 Player 2 (AI) Wins!` : `🏆 Player 2 Wins!`;
+    subtitle = `Player 2${isAI(2) ? ' (AI)' : ''} has more fire barriers remaining (${b2} vs ${b1}).`;
   } else {
     title    = `🤝 Draw`;
     subtitle = `Both players have ${b1} fire barrier(s) remaining — no tiebreaker.`;
@@ -873,25 +944,35 @@ function deckExhaustionGameOver(deckType){
 
   render();
 
+  showEndModal({
+    title,
+    subtitle,
+    bodyHTML: `
+      <p style="color:#cdbfb7">
+        Fire barriers remaining — Player 1: <b>${b1}</b> · Player 2${isAI(2) ? ' (AI)' : ''}: <b>${b2}</b>
+      </p>
+      <p style="color:#7d6f67;font-size:14px">
+        The ${which} could not supply enough cards for this round's draws.
+        The game ends in Round ${S.round}.
+      </p>`,
+  });
+}
+
+function showEndModal({ title, subtitle, bodyHTML }){
   const m = document.getElementById('modal');
   m.classList.remove('hidden');
   m.innerHTML = `
     <div class="modalbox">
       <h2>${title}</h2>
       <p>${subtitle}</p>
-      <p style="color:#cdbfb7">
-        Fire barriers remaining — Player 1: <b>${b1}</b> · Player 2: <b>${b2}</b>
-      </p>
-      <p style="color:#7d6f67;font-size:14px">
-        The ${which} could not supply enough cards for this round's draws.
-        The game ends in Round ${S.round}.
-      </p>
-      <button class="primary" id="again">Play again</button>
+      ${bodyHTML || ''}
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:22px;flex-wrap:wrap">
+        <button class="primary" id="again">Play again</button>
+        <button id="to-menu">Main menu</button>
+      </div>
     </div>`;
-  m.querySelector('#again').onclick = () => {
-    m.classList.add('hidden');
-    newGame();
-  };
+  m.querySelector('#again').onclick = () => { m.classList.add('hidden'); newGame(); };
+  m.querySelector('#to-menu').onclick = () => { m.classList.add('hidden'); backToMenu(); };
 }
 
 
@@ -945,16 +1026,16 @@ function applyBurn(actor, targetPlayer, col, cardId, protId){
     card.protections.splice(idx, 1);
     const glued = card.protections.filter(x => x.needsPeptide);
     card.protections = card.protections.filter(x => !x.needsPeptide);
-    log(`Player ${actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}.`, 'bad');
+    log(`${playerTag(actor)} burned away ${removed.name} from ${playerTag(targetPlayer)}'s ${card.name}.`, 'bad');
     log(`  ↳ ${removed.name} was the last peptide — ${glued.length} glued card(s) also discarded: ${glued.map(g => g.name).join(', ')}.`, 'bad');
   } else {
     card.protections.splice(idx, 1);
     if (removed.isPeptide){
       const peptidesLeft = card.protections.filter(p => p.isPeptide).length;
-      log(`Player ${actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}. ` +
+      log(`${playerTag(actor)} burned away ${removed.name} from ${playerTag(targetPlayer)}'s ${card.name}. ` +
           `(${peptidesLeft} peptide(s) still on the card — glued cards survive.)`, 'bad');
     } else {
-      log(`Player ${actor} burned away ${removed.name} from Player ${targetPlayer}'s ${card.name}.`, 'bad');
+      log(`${playerTag(actor)} burned away ${removed.name} from ${playerTag(targetPlayer)}'s ${card.name}.`, 'bad');
     }
   }
   return true;
@@ -1059,7 +1140,7 @@ function attachProt(p, col, cardId){
   card.protections.push(pr);
   S.protHands[p] = S.protHands[p].filter(x => x.id !== pr.id);
   S.sel.protId = null;
-  log(`Player ${p} attached ${pr.name} (+${pr.prot}🛡) to ${card.name} at pos ${col+1}.`, 'good');
+  log(`${playerTag(p)} attached ${pr.name} (+${pr.prot}🛡) to ${card.name} at pos ${col+1}.`, 'good');
   render();
 }
 
@@ -1129,7 +1210,7 @@ function doSwap(){
   handCards.forEach(c => S.boards[p][col].push(c));
   S.hands[p] = S.hands[p].filter(c => !inc.includes(c.id));
 
-  log(`Player ${p} swapped in [${joinNames(handCards)}] at position ${col + 1}.`, 'good');
+  log(`${playerTag(p)} swapped in [${joinNames(handCards)}] at position ${col + 1}.`, 'good');
 
   S.sel = { out: [], in: [], col: null };
   render();
@@ -1151,7 +1232,7 @@ function render(){
 function renderStatus(){
   const el = document.getElementById('status');
   const showActor = [PHASES.PROT, PHASES.ARSON, PHASES.SWAP].includes(S.phase);
-  const actorText = showActor ? 'Player ' + S.actor : '—';
+  const actorText = showActor ? playerTag(S.actor) : '—';
 
   let extra = '';
   if (S.phase === PHASES.RESOLVE && S.resolveQueue.length){
@@ -1198,7 +1279,6 @@ function renderBoard(){
   equalizeLanes();
 }
 
-/* Force all lanes to the same rendered height so midlines stay aligned. */
 function equalizeLanes(){
   const board = document.getElementById('board');
   if (!board) return;
@@ -1206,7 +1286,7 @@ function equalizeLanes(){
   if (!lanes.length) return;
 
   lanes.forEach(l => { l.style.minHeight = ''; });
-  void board.offsetHeight; // force reflow
+  void board.offsetHeight;
 
   let maxH = 0;
   lanes.forEach(l => { maxH = Math.max(maxH, l.getBoundingClientRect().height); });
@@ -1245,7 +1325,6 @@ function makeCardEl(p, col, card, swapSelIds){
   const d = document.createElement('div');
   d.className = 'card' + (card.fire ? ' fire' : '') + ' on-board-p' + p;
 
-  // Swap-phase interactivity
   if (S.phase === PHASES.SWAP && S.actor === p){
     d.classList.add('selectable');
     const sel = swapSelIds.includes(card.id);
@@ -1257,7 +1336,6 @@ function makeCardEl(p, col, card, swapSelIds){
     d.onclick = e => { e.stopPropagation(); clickBoardCard(p, col, card.id); };
   }
 
-  // Protection-phase targetability
   if (S.phase === PHASES.PROT && S.actor === p && S.sel.protId != null && !card.fire){
     d.classList.add('targetable');
     d.onclick = e => { e.stopPropagation(); attachProt(p, col, card.id); };
@@ -1319,15 +1397,14 @@ function buildProtectionChips(card, p, col){
    ========================================================= */
 
 function showMainHandFor(p){
+  if (isAI(p)) return false;
   if (S.phase === PHASES.OVER) return true;
   if (S.phase === PHASES.PLACE) return S.placeTurn === p && !S.cover;
   if ([PHASES.PROT, PHASES.ARSON, PHASES.SWAP].includes(S.phase)) return S.actor === p;
   return false;
 }
 
-function showProtHandFor(p){
-  return showMainHandFor(p);
-}
+function showProtHandFor(p){ return showMainHandFor(p); }
 
 function renderPanels(){
   const p2 = document.getElementById('p2panel');
@@ -1343,10 +1420,10 @@ function makePanel(p){
   const box = document.createElement('div');
   box.className = 'ppanel p' + p + (active && S.phase !== PHASES.OVER ? ' active' : '');
 
-  // Header (name + barriers)
   const head = document.createElement('div');
   head.className = 'phead';
-  head.innerHTML = `<span class="pname p${p}">PLAYER ${p}${S.first === p ? ' · first' : ''}</span>`;
+  const aiTag = isAI(p) ? ' (AI)' : '';
+  head.innerHTML = `<span class="pname p${p}">PLAYER ${p}${aiTag}${S.first === p ? ' · first' : ''}</span>`;
   const bwrap = document.createElement('div');
   bwrap.className = 'barriers';
   for (let i = 0; i < 10; i++){
@@ -1357,7 +1434,6 @@ function makePanel(p){
   head.appendChild(bwrap);
   box.appendChild(head);
 
-  // Main hand
   const hLabel = document.createElement('div');
   hLabel.className = 'sub';
   hLabel.textContent = `Hand (${S.hands[p].length})`;
@@ -1380,7 +1456,6 @@ function makePanel(p){
   }
   box.appendChild(hand);
 
-  // Protection hand
   const pLabel = document.createElement('div');
   pLabel.className = 'sub';
   pLabel.textContent = `Protection cards (${S.protHands[p].length})`;
@@ -1413,7 +1488,6 @@ function makePanel(p){
   }
   box.appendChild(ph);
 
-  // Board summary
   const flat = S.boards[p].flat();
   const cwPos  = [], sciPos = [], arsPos = [];
   S.boards[p].forEach((colCards, col) => {
@@ -1462,7 +1536,7 @@ function makeHandCard(p, card){
 
 
 /* =========================================================
-   §11  RENDERING — ACTION BAR (one function per phase)
+   §11  RENDERING — ACTION BAR
    ========================================================= */
 
 function renderActions(){
@@ -1481,19 +1555,17 @@ function renderActions(){
   }[S.phase];
 
   if (handler) handler(el);
-  else renderFallbackActions(el);
-}
-
-function renderFallbackActions(el){
-  const msg = makeActionMsg();
-  msg.textContent = 'Setting up…';
-  el.appendChild(msg);
+  else {
+    const msg = makeActionMsg();
+    msg.textContent = 'Setting up…';
+    el.appendChild(msg);
+  }
 }
 
 function renderDrawActions(el){
   const msg = makeActionMsg();
   msg.innerHTML = `<b>Round ${S.round} — Draw phase.</b> Both players draw to 5 main cards. ` +
-                  `Player ${S.first} places first this round.` +
+                  `${playerTag(S.first)} places first this round.` +
                   (S.round === 1
                     ? `<br><span style="color:#8a2a10;font-weight:700">Round 1: no protection, arsonist, or swapping phases — face-off only.</span>`
                     : '');
@@ -1505,22 +1577,33 @@ function renderPlaceActions(el){
   const msg = makeActionMsg();
 
   if (S.placeTurn === null){
-    msg.innerHTML = `<b>Both players have placed their cards face-down.</b> Click <b>Flip cards</b> when both players are ready to reveal.`;
+    msg.innerHTML = `<b>Both players have placed their cards face-down.</b> Click <b>Flip cards</b> to reveal.`;
     el.appendChild(msg);
     el.appendChild(mkBtn('Flip cards', reveal, 'primary'));
+  } else if (isAI(S.placeTurn)){
+    msg.innerHTML = `<b class="ai-thinking">${playerTag(S.placeTurn)} is placing a card…</b>`;
+    el.appendChild(msg);
   } else if (S.cover){
     msg.innerHTML = `<b>Player ${S.placeTurn} — pass the device.</b> Player ${opp(S.placeTurn)}, look away. ` +
                     `Player ${S.placeTurn}, tap below to reveal your hand.`;
     el.appendChild(msg);
     el.appendChild(mkBtn(`Player ${S.placeTurn}: Reveal my hand`, revealHand, 'primary'));
   } else {
+    const note = GAME_MODE === 'pvp' ? ' Once placed, your hand will be hidden automatically.' : '';
     msg.innerHTML = `<b>Player ${S.placeTurn}</b> — click a card in your hand to select it, then click a board position to place it face-down. ` +
-                    `Each position holds at most 2 stacked main cards. Once placed, your hand will be hidden automatically.`;
+                    `Each position holds at most 2 stacked main cards.${note}`;
     el.appendChild(msg);
   }
 }
 
 function renderProtActions(el){
+  if (isAI(S.actor)){
+    const msg = makeActionMsg();
+    msg.innerHTML = `<b class="ai-thinking">${playerTag(S.actor)} — Protection phase.</b> AI is choosing which protections to attach…`;
+    el.appendChild(msg);
+    return;
+  }
+
   const { total, contributors } = protectionDrawCount(S.actor);
   const detail = contributors.length
     ? contributors.map(c => `${c.name}@pos${c.col+1}(+${c.amount})`).join(', ')
@@ -1530,12 +1613,19 @@ function renderProtActions(el){
   msg.innerHTML = `<b>Player ${S.actor} — Protection phase.</b> ` +
     `<span style="color:#ffffff">Board contributors: <b style="color:#ffffff">${detail}</b> → +${total} this round.</span> ` +
     `You hold <b>${S.protHands[S.actor].length}</b> protection card(s). ` +
-    `Click one to select it, then click a non-Fire card to attach it (immediately).`;
+    `Click one to select it, then click a non-Fire card to attach it.`;
   el.appendChild(msg);
   el.appendChild(mkBtn('Done', nextFromProt, 'primary'));
 }
 
 function renderArsonActions(el){
+  if (isAI(S.actor)){
+    const msg = makeActionMsg();
+    msg.innerHTML = `<b class="ai-thinking">${playerTag(S.actor)} — Arsonist phase.</b> AI is choosing which of your protections to burn…`;
+    el.appendChild(msg);
+    return;
+  }
+
   const remaining    = S.arsonLeft[S.actor] || 0;
   const targetPlayer = opp(S.actor);
   const burnables    = collectBurnables(targetPlayer);
@@ -1546,10 +1636,8 @@ function renderArsonActions(el){
   const header = document.createElement('div');
   let headerHTML = `<b>Player ${S.actor} — Arsonist phase.</b> You may remove ${remaining} protection card(s) from your opponent. `;
   if (burnables.length === 0){
-    headerHTML += `Player ${targetPlayer} has no protection cards on the board to burn.`;
-  } else if (remaining === 0){
-    headerHTML += ` `;
-  } else {
+    headerHTML += `${playerTag(targetPlayer)} has no protection cards on the board to burn.`;
+  } else if (remaining > 0){
     headerHTML += `Click a red button below or directly select your target on the board.`;
   }
   header.innerHTML = headerHTML;
@@ -1608,6 +1696,13 @@ function buildBurnButton(targetPlayer, b){
 }
 
 function renderSwapActions(el){
+  if (isAI(S.actor)){
+    const msg = makeActionMsg();
+    msg.innerHTML = `<b class="ai-thinking">${playerTag(S.actor)} — Swapping phase.</b> AI is taking its swap turn…`;
+    el.appendChild(msg);
+    return;
+  }
+
   const out = S.sel.out || [], inc = S.sel.in || [];
   const boardCardsOut = S.boards[S.actor].flat().filter(c => out.includes(c.id));
   const outCur = boardCardsOut.reduce((a, c) => a + c.cur, 0);
@@ -1648,7 +1743,7 @@ function renderResolveActions(el){
     <div class="faceoff-title">Face-off at Position ${c + 1} — ${S.resolveIdx + 1} of ${S.resolveQueue.length}</div>
     <div class="faceoff-row">
       <div class="side1"><b>P1</b> · ${info.aNames}: ⚔ ${info.aAtk} · 🛡 ${info.aRes}</div>
-      <div class="side2"><b>P2</b> · ${info.bNames}: ⚔ ${info.bAtk} · 🛡 ${info.bRes}</div>
+      <div class="side2"><b>P2${isAI(2) ? ' (AI)' : ''}</b> · ${info.bNames}: ⚔ ${info.bAtk} · 🛡 ${info.bRes}</div>
     </div>
     <div class="faceoff-outcomes">
       <div>P2 attacks P1: ${info.bAtk} vs ${info.aRes} → ${info.aOutcome}</div>
@@ -1658,7 +1753,6 @@ function renderResolveActions(el){
   el.appendChild(mkBtn('OK — Resolve', applyCurrentFaceoff, 'primary'));
 }
 
-/* Pure computation, no side effects — used by the resolve action bar. */
 function buildFaceoffPreview(c, a, b){
   const aAtk = stackAtk(a), aRes = stackRes(a);
   const bAtk = stackAtk(b), bRes = stackRes(b);
@@ -1723,8 +1817,27 @@ function renderLog(){
 
 
 /* =========================================================
-   §13  BOOT
+   §13  BOOT + MENU WIRING
    ========================================================= */
+
+function startGameMode(mode){
+  GAME_MODE = mode;
+  document.getElementById('menu-screen').classList.add('hidden');
+  document.getElementById('game-screen').classList.remove('hidden');
+  document.getElementById('modal').classList.add('hidden');
+  newGame();
+  requestAnimationFrame(() => equalizeLanes());
+}
+
+function backToMenu(){
+  document.getElementById('menu-screen').classList.remove('hidden');
+  document.getElementById('game-screen').classList.add('hidden');
+  document.getElementById('modal').classList.add('hidden');
+}
+
+document.getElementById('btn-pvp').onclick = () => startGameMode('pvp');
+document.getElementById('btn-ai').onclick  = () => startGameMode('ai');
+document.getElementById('menu-btn').onclick = backToMenu;
 
 document.getElementById('showstate').onclick = () => {
   stateDump();
@@ -1739,11 +1852,194 @@ document.getElementById('newgame').onclick = () => {
   newGame();
 };
 
-newGame();
-
 window.addEventListener('resize', () => {
-  if (typeof equalizeLanes === 'function') equalizeLanes();
+  if (!document.getElementById('game-screen').classList.contains('hidden')){
+    equalizeLanes();
+  }
 });
+
+/* Menu is shown on boot. No game starts until a mode is chosen. */
+
+
+/* =========================================================
+   §14  AI CONTROLLER
+   =========================================================
+   All AI decisions go through the same functions the human
+   UI uses, so game rules are never duplicated. Every
+   scheduled action guards on phase + actor, and uses a
+   generation counter so stale timers from a previous game
+   simply no-op.
+   ========================================================= */
+
+function aiSchedule(fn, delay = AI_DELAY){
+  const gen = AI_GENERATION;
+  setTimeout(() => {
+    if (gen !== AI_GENERATION) return;
+    if (S.phase === PHASES.OVER) return;
+    try { fn(); } catch (err) { console.error('AI error:', err); }
+  }, delay);
+}
+
+/* ─── Placement ─── */
+
+function aiPlace(){
+  if (S.phase !== PHASES.PLACE) return;
+  if (S.placeTurn !== AI_PLAYER) return;
+  if (!canPlace(AI_PLAYER)) return;
+
+  const decision = aiChoosePlacement();
+  if (!decision) return;
+
+  S.sel.cardId = decision.cardId;
+  clickColumn(AI_PLAYER, decision.col);
+}
+
+function aiChoosePlacement(){
+  const hand = S.hands[AI_PLAYER];
+  if (!hand.length) return null;
+
+  let best = null, bestScore = -Infinity;
+  const opponent = opp(AI_PLAYER);
+
+  for (const card of hand){
+    for (let col = 0; col < 5; col++){
+      const myCol = S.boards[AI_PLAYER][col];
+      if (myCol.length >= 2) continue;
+      const oppCol = S.boards[opponent][col];
+      const score = aiScorePlacement(card, myCol, oppCol);
+      if (score > bestScore){
+        bestScore = score;
+        best = { cardId: card.id, col };
+      }
+    }
+  }
+  return best;
+}
+
+function aiScorePlacement(card, myCol, oppCol){
+  const myStack  = [...myCol, card];
+  const myAtk = stackAtk(myStack), myRes = stackRes(myStack);
+  const oppAtk = stackAtk(oppCol),  oppRes = stackRes(oppCol);
+  const willContest = oppCol.length > 0;
+
+  let score = 0;
+
+  if (willContest){
+    const iKill = myAtk >= oppRes;
+    const iDie  = oppAtk >= myRes;
+    const oppKillDamage = iKill ? Math.max(0, myAtk - oppRes) : 0;
+    const myKillDamage  = iDie  ? Math.max(0, oppAtk - myRes) : 0;
+
+    if (iKill && !iDie)       score += 30 + oppKillDamage * 2;
+    else if (iKill && iDie)   score += 5 + oppKillDamage - myKillDamage * 4;
+    else if (!iKill && iDie)  score -= 15 + myKillDamage * 4;
+    else                       score += 2;
+
+    score += card.cur * 0.3;
+  } else {
+    score += card.atk + card.res;
+    if (myCol.length > 0) score += 2;
+  }
+
+  return score + Math.random() * 0.2;
+}
+
+/* ─── Protection ─── */
+
+function aiProtection(){
+  if (S.phase !== PHASES.PROT || S.actor !== AI_PLAYER) return;
+
+  let guard = 30;
+  while (guard-- > 0){
+    const decision = aiChooseProtection();
+    if (!decision) break;
+    S.sel.protId = decision.protId;
+    attachProt(AI_PLAYER, decision.col, decision.cardId);
+  }
+
+  nextFromProt();
+}
+
+function aiChooseProtection(){
+  const protHand = S.protHands[AI_PLAYER];
+  if (!protHand.length) return null;
+
+  const targets = [];
+  S.boards[AI_PLAYER].forEach((colCards, col) => {
+    colCards.forEach(card => {
+      if (!card.fire) targets.push({ col, card });
+    });
+  });
+  if (!targets.length) return null;
+
+  const scoreTarget = t => {
+    const oppCol = S.boards[opp(AI_PLAYER)][t.col];
+    let s = t.card.atk + t.card.res;
+    if (oppCol.length > 0) s += 10;
+    return s;
+  };
+
+  const peptide = protHand.find(p => p.isPeptide);
+  const hasGlue = protHand.some(p => p.needsPeptide);
+  if (peptide && hasGlue){
+    const candidates = targets.filter(t => !(t.card.protections || []).some(x => x.isPeptide));
+    if (candidates.length){
+      candidates.sort((a, b) => scoreTarget(b) - scoreTarget(a));
+      return { protId: peptide.id, col: candidates[0].col, cardId: candidates[0].card.id };
+    }
+  }
+
+  const glue = protHand.find(p => p.needsPeptide);
+  if (glue){
+    const candidates = targets.filter(t =>
+      (t.card.protections || []).some(x => x.isPeptide));
+    if (candidates.length){
+      candidates.sort((a, b) => scoreTarget(b) - scoreTarget(a));
+      return { protId: glue.id, col: candidates[0].col, cardId: candidates[0].card.id };
+    }
+  }
+
+  const regular = protHand.find(p => !p.isPeptide && !p.needsPeptide);
+  if (regular){
+    const candidates = [...targets].sort((a, b) => scoreTarget(b) - scoreTarget(a));
+    return { protId: regular.id, col: candidates[0].col, cardId: candidates[0].card.id };
+  }
+
+  return null;
+}
+
+/* ─── Arsonist ─── */
+
+function aiArson(){
+  if (S.phase !== PHASES.ARSON || S.actor !== AI_PLAYER) return;
+
+  const remaining = S.arsonLeft[AI_PLAYER] || 0;
+  if (remaining > 0){
+    const burnables = collectBurnables(opp(AI_PLAYER));
+    const scored = burnables.map(b => {
+      let s = b.protVal;
+      if (b.isPeptide && b.cascade > 0) s += 1000 + b.cascade * 50;
+      return { ...b, score: s };
+    }).sort((a, b) => b.score - a.score);
+
+    S.arsonSel = scored.slice(0, remaining).map(b => ({
+      targetPlayer: opp(AI_PLAYER),
+      col: b.colIdx,
+      cardId: b.cardId,
+      protId: b.protId,
+    }));
+    render();
+  }
+
+  aiSchedule(nextFromArson, 500);
+}
+
+/* ─── Swap ─── */
+
+function aiSwap(){
+  if (S.phase !== PHASES.SWAP || S.actor !== AI_PLAYER) return;
+  nextFromSwap();
+}
 </script>
 </body>
 </html>
